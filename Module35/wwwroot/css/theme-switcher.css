@@ -1,17 +1,17 @@
-/* Стили для переключателя темы */
+/* Базовые стили для переключателя темы */
 .theme-switch-wrapper {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-left: 20px;
+    position: relative;
 }
 
 .theme-switch {
-    display: inline-block;
     position: relative;
-    width: 220px;
-    height: 44px;
-    cursor: pointer;
+    display: inline-block;
+    width: 62px;
+    height: 32px;
+    margin: 0 8px;
 }
 
 .theme-switch input {
@@ -22,102 +22,236 @@
 
 .slider {
     position: absolute;
+    cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #f0f0f0;
+    background-color: rgba(224, 224, 224, 0.8);
     transition: .4s;
-    border-radius: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 36px;
-    width: 36px;
+    height: 24px;
+    width: 24px;
     left: 4px;
     bottom: 4px;
     background-color: white;
-    transition: .4s;
+    transition: .3s;
+    z-index: 4;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+input:checked + .slider,
+input:checked ~ .switch-container .slider {
+    background-color: rgba(58, 102, 182, 0.8);
+}
+
+[data-theme="dark"] input:checked + .slider,
+[data-theme="dark"] input:checked ~ .switch-container .slider {
+    background-color: rgba(110, 66, 193, 0.8);
+}
+
+input:focus + .slider,
+input:focus ~ .switch-container .slider {
+    box-shadow: 0 0 1px var(--btn-primary-bg, #0d6efd);
+}
+
+input:checked + .slider:before,
+input:checked ~ .switch-container .slider:before {
+    transform: translateX(30px);
+}
+
+/* Закругленный переключатель */
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
     border-radius: 50%;
-    z-index: 2;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.light-mode-label, .dark-mode-label {
-    font-weight: 600;
-    font-size: 14px;
-    z-index: 1;
-    transition: color 0.3s ease;
-    white-space: nowrap;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    left: 0;
-    right: 0;
-}
-
-/* Стили для лейблов в двух состояниях */
-.light-mode-label {
-    color: white;
-    display: none;
-}
-
-.dark-mode-label {
-    color: #333;
-}
-
-/* В светлом режиме показываем текст темного режима */
-body:not([data-theme="dark"]) .dark-mode-label {
-    display: block;
-}
-
-body:not([data-theme="dark"]) .light-mode-label {
-    display: none;
-}
-
-/* В темном режиме показываем текст светлого режима */
-body[data-theme="dark"] .light-mode-label {
-    display: block;
-}
-
-body[data-theme="dark"] .dark-mode-label {
-    display: none;
-}
-
-input:checked + .slider {
-    background-color: #222;
-}
-
-input:checked + .slider:before {
-    transform: translateX(176px);
-}
-
+/* Иконки */
 .icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    font-size: 16px;
+    z-index: 10;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    pointer-events: none;
+    mix-blend-mode: multiply;
 }
 
-.sun-icon {
-    color: #ffa500;
-    left: 15px;
+.icon-sun,
+.switch-container .icon-sun {
+    left: 9px;
+    color: #ffa700 !important;
+    opacity: 1 !important;
 }
 
-.moon-icon {
-    color: #c4c4c4;
-    right: 15px;
+.icon-moon,
+.switch-container .icon-moon {
+    right: 9px;
+    color: #000000 !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] .icon-sun,
+[data-theme="dark"] .switch-container .icon-sun {
+    color: #ffd700 !important;
+}
+
+[data-theme="dark"] .icon-moon,
+[data-theme="dark"] .switch-container .icon-moon {
+    color: #ffffff !important;
+}
+
+/* Улучшаем контрастность иконок для разных тем */
+[data-theme="light"] .icon-sun,
+[data-theme="light"] .switch-container .icon-sun {
+    opacity: 0 !important;
+}
+
+[data-theme="light"] .icon-moon,
+[data-theme="light"] .switch-container .icon-moon {
+    opacity: 1 !important;
+    color: #000000 !important;
+}
+
+[data-theme="dark"] .icon-sun,
+[data-theme="dark"] .switch-container .icon-sun {
+    opacity: 1 !important;
+    color: #ffcc00 !important;
+    filter: brightness(1.3);
+}
+
+[data-theme="dark"] .icon-moon,
+[data-theme="dark"] .switch-container .icon-moon {
+    opacity: 0 !important;
+}
+
+/* Лейблы "Light" и "Dark" */
+.theme-label {
+    margin: 0 5px;
+    font-size: 0.85rem;
+    user-select: none;
+    color: var(--text-color);
+    transition: opacity 0.3s ease;
+}
+
+.light-label {
+    opacity: 1;
+}
+
+.dark-label {
+    opacity: 0.6;
+}
+
+[data-theme="dark"] .light-label {
+    opacity: 0.6;
+}
+
+[data-theme="dark"] .dark-label {
+    opacity: 1;
+}
+
+/* Переключатель остается на месте */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    position: relative;
+}
+
+/* Убираем свойство display: none для лейблов */
+.light-label, .dark-label {
+    display: inline-block !important;
+}
+
+/* Предотвращение мерцания при загрузке */
+.no-js * {
+    transition: none !important;
+}
+
+/* Плавное появление страницы при загрузке */
+body {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.theme-fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Базовые стили темы */
+.theme-light {
+    --background-color: #f5f6f8;
+    --text-color: #333333;
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+    --header-background: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --primary-color: #7e57c2;
+    --secondary-color: #5e35b1;
+}
+
+.theme-dark {
+    --background-color: #121212;
+    --text-color: #f5f5f5;
+    --card-background: #1e1e1e;
+    --border-color: #333333;
+    --header-background: #1e1e1e;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --primary-color: #9575cd;
+    --secondary-color: #7e57c2;
+}
+
+/* Применение переменных темы */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* Адаптация карточек */
+.card {
+    background-color: var(--card-background);
+    border-color: var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: background-color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* Адаптация навигации */
+.topnav {
+    background-color: var(--header-background);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.6s ease, border-color 0.6s ease;
+}
+
+/* Адаптация кнопок */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color 0.6s ease, border-color 0.6s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 
 /* Тёмная тема для сайта */
@@ -138,7 +272,7 @@ input:checked + .slider:before {
     --validation-text: #dc3545;
 }
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
     --background-color: #222;
     --text-color: #eee;
     --card-bg: #333;
@@ -158,20 +292,20 @@ input:checked + .slider:before {
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.6s ease, color 0.6s ease;
 }
 
 .card {
     background-color: var(--card-bg);
     border-color: var(--card-border);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.6s ease, border-color 0.6s ease;
 }
 
 .form-control, .form-select {
     background-color: var(--input-bg);
     border-color: var(--input-border);
     color: var(--input-text);
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.6s ease, border-color 0.6s ease, color 0.6s ease;
 }
 
 .form-control:focus, .form-select:focus {
@@ -180,12 +314,12 @@ body {
 }
 
 /* Фикс для выпадающих списков в темной теме */
-[data-theme="dark"] .form-select {
+html[data-theme="dark"] .form-select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
 
 /* Фикс для опций в выпадающих списках */
-[data-theme="dark"] option {
+html[data-theme="dark"] option {
     background-color: var(--select-option-bg);
     color: var(--input-text);
 }
@@ -231,4 +365,55 @@ footer {
     background-color: var(--footer-bg);
     color: var(--footer-text);
     border-top-color: var(--card-border) !important;
+}
+
+/* Для плавного перехода при загрузке страницы */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.theme-fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* Переходы для темы */
+.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.switch-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Переключатель */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 62px;
+    height: 32px;
+    margin: 0 8px;
+}
+
+.slider-animation {
+    transition: background-color 0.3s ease !important;
+}
+
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+[data-theme="dark"] .icon {
+    mix-blend-mode: normal;
 } 

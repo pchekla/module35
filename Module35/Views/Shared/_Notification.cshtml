@@ -1,0 +1,66 @@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="notification success-notification">
+        <div class="notification-content">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
+        <button class="close-notification">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="notification error-notification">
+        <div class="notification-content">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+        <button class="close-notification">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="notification info-notification">
+        <div class="notification-content">
+            <i class="bi bi-info-circle-fill"></i>
+            <span>@TempData["InfoMessage"]</span>
+        </div>
+        <button class="close-notification">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notifications = document.querySelectorAll('.notification');
+        
+        notifications.forEach(function(notification) {
+            // Автоматическое скрытие через 5 секунд
+            setTimeout(function() {
+                hideNotification(notification);
+            }, 5000);
+            
+            // Обработчик кнопки закрытия
+            const closeButton = notification.querySelector('.close-notification');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    hideNotification(notification);
+                });
+            }
+        });
+        
+        function hideNotification(notification) {
+            notification.classList.add('notification-hiding');
+            setTimeout(function() {
+                notification.remove();
+            }, 300);
+        }
+    });
+</script> 

@@ -2,17 +2,9 @@
     ViewData["Title"] = "Главная";
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-<div class="row">
+<div class="row fade-in">
     <div class="col-md-7 text-center">
-        <div class="welcome-info">
+        <div class="welcome-info animate-on-scroll">
             <h2 class="mb-3">Пользуйтесь нашей самой крутой соцсетью!</h2>
             <p>Регистрируйтесь всего за 2 минуты, делитесь мыслями, находите новых друзей.</p>
             
@@ -23,7 +15,7 @@
     </div>
 
     <div class="col-md-5">
-        <div class="auth-section mb-4">
+        <div class="auth-section mb-4 animate-on-scroll">
             <div class="card">
                 <div class="card-body">
                     <h3 class="text-center mb-3">Добро пожаловать!</h3>
@@ -32,7 +24,7 @@
             </div>
         </div>
 
-        <div class="reg-section">
+        <div class="reg-section animate-on-scroll">
             <div class="card">
                 <div class="card-body">
                     <h3 class="text-center mb-3">Впервые с нами?</h3>

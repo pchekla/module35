@@ -1,7 +1,415 @@
-html {
-  font-size: 14px;
+/* 
+   Основные стили сайта и настройки для переключения темы
+   Использование CSS-переменных для единообразия стилей
+   во всех режимах отображения.
+*/
+
+:root {
+    /* Основные переменные темы (светлая тема по умолчанию) */
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #212529;
+    --border-color: #dee2e6;
+    --link-color: #0d6efd;
+    --visited-link: #563d7c;
+    --btn-primary-bg: #0d6efd;
+    --btn-primary-text: #ffffff;
+    --btn-secondary-bg: #6c757d;
+    --btn-secondary-text: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --accent-color: #0d6efd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --header-bg: #f8f9fa;
+    --footer-bg: #f8f9fa;
+    --navbar-bg: #f8f9fa;
+    
+    /* Переменные для анимации */
+    --transition-time: 300ms;
+    --fade-timing: 200ms;
+    
+    /* Прелоадер */
+    --preloader-bg: #ffffff;
+    --preloader-spinner: #0d6efd;
+
+    /* Основные цвета для светлой темы */
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-color: #dee2e6;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --btn-primary-bg: #0d6efd;
+    --btn-primary-hover: #0b5ed7;
+    --btn-danger-bg: #dc3545;
+    --btn-danger-hover: #bb2d3b;
+    --link-color: #0d6efd;
+    --link-hover: #0a58ca;
+    
+    /* Цвета для уведомлений */
+    --success-bg: #d1e7dd;
+    --success-color: #0f5132;
+    --error-bg: #f8d7da;
+    --error-color: #842029;
+    --info-bg: #cff4fc;
+    --info-color: #055160;
 }
 
+/* Темная тема */
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #494949;
+    --link-color: #90caf9;
+    --visited-link: #ce93d8;
+    --btn-primary-bg: #3f51b5;
+    --btn-primary-text: #ffffff;
+    --btn-secondary-bg: #607d8b;
+    --btn-secondary-text: #ffffff;
+    --input-bg: #2d2d2d;
+    --input-border: #4d4d4d;
+    --accent-color: #bb86fc;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --header-bg: #1e1e1e;
+    --footer-bg: #1e1e1e;
+    --navbar-bg: #1e1e1e;
+    
+    /* Прелоадер */
+    --preloader-bg: #121212;
+    --preloader-spinner: #bb86fc;
+
+    /* Основные цвета для темной темы */
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --border-color: #333333;
+    --input-bg: #2d2d2d;
+    --input-border: #444444;
+    --btn-primary-bg: #bb86fc;
+    --btn-primary-hover: #a66efe;
+    --btn-danger-bg: #cf6679;
+    --btn-danger-hover: #b55464;
+    --link-color: #bb86fc;
+    --link-hover: #a66efe;
+    
+    /* Цвета для уведомлений */
+    --success-bg: #133929;
+    --success-color: #d1e7dd;
+    --error-bg: #2c1215;
+    --error-color: #f8d7da;
+    --info-bg: #0f363e;
+    --info-color: #cff4fc;
+}
+
+/* Предотвращение FOUC (Flash of Unstyled Content) */
+body.no-js {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* Плавные переходы для всех элементов */
+html, body,
+a, button, input, select, textarea,
+.card, .navbar, .form-control, .btn,
+header, footer, main, aside {
+    transition: var(--transition-time) ease;
+}
+
+/* Анимация появления контента */
+@keyframes fadeIn {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.theme-fade-in {
+    animation: fadeEffect var(--fade-timing) ease-in-out;
+}
+
+@keyframes fadeEffect {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+/* Базовые стили */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    height: 100%;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Стилизация ссылок */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color var(--transition-time) ease;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--visited-link);
+}
+
+/* Стилизация кнопок */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: var(--transition-time) ease;
+}
+
+.btn-primary {
+    color: var(--btn-primary-text);
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Карточки */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+    box-shadow: var(--shadow-color);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: var(--transition-time) ease;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+}
+
+.card-subtitle {
+    margin-top: -0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+input, select, textarea {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--input-bg);
+    background-clip: padding-box;
+    border: 1px solid var(--input-border);
+    border-radius: 0.25rem;
+    transition: var(--transition-time) ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--accent-color-rgb, 13, 110, 253), 0.25);
+}
+
+/* Переключатель темы */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.theme-switch {
+    display: inline-block;
+    position: relative;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switch label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 25px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.theme-switch label:before {
+    content: "";
+    height: 21px;
+    width: 21px;
+    position: absolute;
+    left: 2px;
+    bottom: 2px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 0.2s;
+}
+
+.theme-switch input:checked + label {
+    background-color: var(--accent-color);
+}
+
+.theme-switch input:checked + label:before {
+    transform: translateX(25px);
+}
+
+/* Верстка страницы */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.main {
+    flex: 1;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: var(--footer-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Медиа-запросы */
+@media (max-width: 768px) {
+    .theme-switch-wrapper {
+        margin: 10px 0;
+    }
+    
+    .container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+}
+
+/* Стили для валидации */
+.field-validation-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+.validation-summary-errors {
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+.validation-summary-errors ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.input-validation-error {
+    border-color: #dc3545;
+}
+
+/* Утилиты */
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.my-3 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.p-3 {
+    padding: 1rem !important;
+}
+
+/* Анимации наведения */
+.btn:hover, a:hover, .form-control:focus {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Анимация иконок темы */
+.theme-icon {
+    transition: transform var(--transition-speed) ease, opacity var(--transition-speed) ease;
+}
+
+[data-theme="dark"] .light-icon {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+[data-theme="light"] .dark-icon {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+/* Стили для приложения */
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -9,16 +417,12 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: var(--input-focus-shadow);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: var(--button-color);
+    background-color: var(--button-bg);
 }
 
 /* Адаптивное масштабирование изображений */
@@ -91,11 +495,316 @@ img {
   opacity: 0.9;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Стили для всплывающих уведомлений */
+.alert {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-dismissible {
+  position: relative;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  display: none;
+}
+
+/* Дополнительные стили для прелоадера */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--preloader-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity var(--fade-timing) ease;
+}
+
+.preloader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--preloader-spinner);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Стили для уведомлений */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 350px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease forwards;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-content i {
+    font-size: 1.2rem;
+}
+
+.success-notification {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+.error-notification {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+.info-notification {
+    background-color: var(--info-bg);
+    color: var(--info-color);
+}
+
+.close-notification {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.close-notification:hover {
+    opacity: 1;
+}
+
+.notification-hiding {
+    animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 576px) {
+    .notification {
+        width: calc(100% - 40px);
+    }
+}
+
+/* Стили для анимаций */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.image-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-hover-active {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.image-container {
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 80%;
+}
+
+/* Эффекты для форм */
+.form-control:focus {
+    border-color: var(--btn-primary-bg);
+    box-shadow: 0 0 0 0.2rem rgba(var(--btn-primary-bg-rgb, 13, 110, 253), 0.25);
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Эффекты для карточек */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для загрузки страницы */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Стили для чекбокса "Запомнить меня" */
+.form-check {
+    padding-left: 2.5rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Сбрасываем все стандартные стили чекбокса */
+.form-check .form-check-input,
+input[type="checkbox"].form-check-input {
+    display: inline-block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    opacity: 0 !important;
+    margin: 0 !important;
+    z-index: 2 !important;
+    width: 20px !important;
+    height: 20px !important;
+    left: 0 !important;
+    cursor: pointer !important;
+}
+
+/* Создаем наш собственный квадратный чекбокс */
+.form-check-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 3px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Галочка внутри чекбокса */
+.form-check-input:checked + .form-check-label::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    left: 5px;
+    top: 2px;
+    line-height: 1;
+}
+
+/* Изменение фона при отмеченном чекбоксе */
+.form-check-input:checked + .form-check-label::before {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+}
+
+/* Стиль для метки */
+.form-check-label {
+    position: relative;
+    padding-left: 0.8rem;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.5;
+    margin-top: 0;
+}
+
+/* Стили для темного режима */
+[data-theme="dark"] .form-check-input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+[data-theme="dark"] .form-check-input:checked {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
 }

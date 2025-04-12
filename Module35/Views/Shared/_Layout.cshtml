@@ -1,30 +1,143 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="no-js">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CosmoBazar</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/main-page.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/theme-switcher.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/Module35.styles.css" asp-append-version="true"/>
-</head>
-<body>
-    <div class="container py-4">
-        <partial name="_ThemeSwitch" />
+    <!-- Немедленно удаляем класс no-js, чтобы предотвратить невидимость контента -->
+    <script>
+        document.documentElement.classList.remove('no-js');
+    </script>
+    <!-- Добавляем критический CSS для предотвращения FOUC -->
+    <style>
+        /* Критические стили для предотвращения мерцания */
+        :root {
+            --preloader-bg: #ffffff;
+            --preloader-spinner: #0d6efd;
+            --bg-color: #ffffff;
+        }
         
-        <main role="main">
+        [data-theme="dark"] {
+            --preloader-bg: #121212;
+            --preloader-spinner: #bb86fc;
+            --bg-color: #121212;
+        }
+        
+        html.no-js {
+            visibility: visible;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            transition: background-color 300ms ease, color 300ms ease;
+        }
+        
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--preloader-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 200ms ease;
+        }
+        
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--preloader-spinner);
+            animation: spin 1s linear infinite;
+        }
+        
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        // Проверка сохраненной темы в localStorage и предустановка перед загрузкой страницы
+        (function() {
+            // Чтение темы из localStorage или использование системных предпочтений
+            const savedTheme = localStorage.getItem('theme');
+            let theme = 'light';
+            
+            if (savedTheme) {
+                theme = savedTheme;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = 'dark';
+            }
+            
+            // Применение темы до загрузки DOM
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/main-page.css" />
+    <link rel="stylesheet" href="~/css/theme-switcher.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="no-js">
+    <!-- Прелоадер -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 topnav">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CosmoBazar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
+                        </li>
+                    </ul>
+                    <div class="theme-switch-wrapper">
+                        <span class="theme-label light-label">Светлая</span>
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <div class="switch-container">
+                                <span class="slider round"></span>
+                                <i class="bi bi-brightness-high-fill icon icon-sun text-warning"></i>
+                                <i class="bi bi-moon-fill icon icon-moon text-dark"></i>
+                            </div>
+                        </label>
+                        <span class="theme-label dark-label">Темная</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @await Html.PartialAsync("_Notification")
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-4">
+    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - CosmoBazar
+            &copy; 2023 - CosmoBazar - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
     </footer>
-    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

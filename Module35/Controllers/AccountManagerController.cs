@@ -37,7 +37,15 @@ public class AccountManagerController : Controller
 
             if (string.IsNullOrEmpty(user.UserName))
             {
-                ModelState.AddModelError("", "Email не может быть пустым");
+                TempData["ErrorMessage"] = "Email не может быть пустым";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Проверяем, существует ли пользователь с таким email/логином
+            var existingUser = await _userManager.FindByNameAsync(user.UserName);
+            if (existingUser == null)
+            {
+                TempData["ErrorMessage"] = "Пользователь с таким логином не найден";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -55,9 +63,12 @@ public class AccountManagerController : Controller
             }
             else
             {
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                TempData["ErrorMessage"] = "Неверный пароль";
+                return RedirectToAction("Index", "Home");
             }
         }
+        
+        TempData["ErrorMessage"] = "Пожалуйста, заполните все необходимые поля";
         return RedirectToAction("Index", "Home");
     }
 
