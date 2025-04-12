@@ -751,3 +751,27 @@ img {
     transform: none !important;
     opacity: 1 !important;
 }
+
+/* Стили для меток полей форм */
+label {
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+.birth-date-label {
+    margin-bottom: 0;
+    padding-bottom: 2px;
+}
+
+/* Отключение анимаций для логотипа */
+img.large-logo {
+    transform: scale(1.5) !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+img.large-logo:hover {
+    transform: scale(1.5) !important;
+    opacity: 1 !important;
+    animation: none !important;
+}
