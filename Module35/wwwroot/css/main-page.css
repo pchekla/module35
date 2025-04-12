@@ -1,13 +1,13 @@
 .main {
     -ms-flex: 30%; /* IE10 */
     flex: 30%;
-    padding: 20px;
+    padding: 10px;
 }
 
 .side {
     -ms-flex: 70%; /* IE10 */
     flex: 70%;
-    padding: 20px;
+    padding: 10px;
 }
 
 .row {
@@ -15,22 +15,26 @@
     display: flex;
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 .footer {
-    padding: 20px;
+    padding: 10px;
     text-align: center;
+    margin-top: 10px;
 }
 
 .topnav {
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     width: 100%;
 }
 
 /* Добавленные стили для форм */
 .auth-section, .reg-section {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .auth-section .btn-primary {
@@ -42,20 +46,112 @@
 }
 
 .welcome-info {
-    padding: 30px;
+    padding: 15px;
+    height: 100%;
 }
 
 .welcome-info img {
-    max-width: 70%;
-    margin: 20px auto;
+    max-width: 60%;
+    margin: 15px auto;
 }
 
 .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
 }
 
 h3 {
     color: #333;
     font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+/* Убираем лишние отступы для контейнера */
+.container main {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+/* Исправление отображения формы регистрации */
+.reg-section {
+    margin-bottom: 20px;
+}
+
+/* Высота колонок */
+.col-md-6 {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Улучшаем отображение карточек */
+.card-body {
+    padding: 1rem;
+}
+
+/* Уменьшаем размер текста */
+p {
+    font-size: 0.9rem;
+}
+
+.form-control, .form-select {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+.btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+/* Настройка для уменьшения общей высоты */
+html, body {
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+}
+
+/* Настройки для страницы без меню */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo-text {
+    font-weight: 600;
+    color: #ee2a7b;
+}
+
+.logo-accent {
+    color: #ff9800;
+    font-weight: 700;
+}
+
+[data-theme="light"] .logo-text {
+    color: #ee2a7b;
+}
+
+[data-theme="light"] .logo-accent {
+    color: #e85d04;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+    
+    .col-md-6 {
+        width: 100%;
+    }
+    
+    .auth-section, .reg-section {
+        margin-bottom: 15px;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
 } 

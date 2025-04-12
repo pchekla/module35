@@ -95,40 +95,28 @@
     </div>
     
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 topnav">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CosmoBazar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
-                        </li>
-                    </ul>
-                    <div class="theme-switch-wrapper">
-                        <span class="theme-label light-label">Светлая</span>
-                        <label class="theme-switch">
-                            <input type="checkbox" id="theme-toggle">
-                            <div class="switch-container">
-                                <span class="slider round"></span>
-                                <i class="bi bi-brightness-high-fill icon icon-sun text-warning"></i>
-                                <i class="bi bi-moon-fill icon icon-moon text-dark"></i>
-                            </div>
-                        </label>
-                        <span class="theme-label dark-label">Темная</span>
-                    </div>
+        <nav class="navbar navbar-toggleable-sm border-bottom box-shadow mb-2 topnav">
+            <div class="container d-flex justify-content-between">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>
+                </a>
+                <div class="theme-switch-wrapper">
+                    <span class="theme-label light-label">Светлая</span>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <div class="switch-container">
+                            <span class="slider round"></span>
+                            <i class="bi bi-brightness-high-fill icon icon-sun text-warning"></i>
+                            <i class="bi bi-moon-fill icon icon-moon text-dark"></i>
+                        </div>
+                    </label>
+                    <span class="theme-label dark-label">Темная</span>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @await Html.PartialAsync("_Notification")
             @RenderBody()
         </main>
@@ -136,7 +124,9 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - CosmoBazar - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
+            <span>&copy; 2023 - CosmoBazar</span>
+            <span class="mx-2">-</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

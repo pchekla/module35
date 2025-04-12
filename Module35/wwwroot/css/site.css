@@ -144,11 +144,12 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    height: 100%;
+    height: auto;
     width: 100%;
     -webkit-text-size-adjust: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
+    overflow-x: hidden;
 }
 
 /* Стилизация ссылок */
@@ -300,29 +301,32 @@ input:focus, select:focus, textarea:focus {
 }
 
 .theme-switch input:checked + label:before {
-    transform: translateX(25px);
+    transform: translateX(20px);
 }
 
 /* Верстка страницы */
 .container {
     width: 100%;
     max-width: 1200px;
+    padding-right: 10px;
+    padding-left: 10px;
     margin-right: auto;
     margin-left: auto;
-    padding-right: 15px;
-    padding-left: 15px;
+    min-height: auto;
+    padding-bottom: 10px;
 }
 
 .main {
-    flex: 1;
+    margin-bottom: 15px;
 }
 
 .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px;
+    line-height: 40px;
+    margin-top: 20px;
     background-color: var(--footer-bg);
     border-top: 1px solid var(--border-color);
 }
@@ -330,7 +334,7 @@ input:focus, select:focus, textarea:focus {
 /* Медиа-запросы */
 @media (max-width: 768px) {
     .theme-switch-wrapper {
-        margin: 10px 0;
+        margin: 5px 0;
     }
     
     .container {
