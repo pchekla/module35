@@ -1,15 +1,22 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Module35.Models;
 
 namespace Module35.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
     
-    // Здесь можно добавить DbSet свойства для ваших моделей
-    // Пример: public DbSet<YourModel> YourModels { get; set; }
+    // Дополнительная конфигурация модели
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        
+        // Здесь можно добавить кастомные настройки для моделей
+    }
 } 
