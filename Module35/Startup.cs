@@ -18,7 +18,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Получаем строку подключения из конфигурации
-        string connection = Configuration.GetConnectionString("DefaultConnection");
+        string? connectionString = Configuration.GetConnectionString("DefaultConnection");
+        string connection = connectionString ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         
         // Добавляем контекст базы данных
         services.AddDbContext<ApplicationDbContext>(options => 
