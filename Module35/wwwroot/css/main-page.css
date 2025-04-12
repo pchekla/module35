@@ -133,6 +133,25 @@ h3 {
     margin-bottom: 15px;
 }
 
+/* Стили карточек и текста для темной темы */
+[data-theme="dark"] .card-title {
+    color: #ffffff;
+}
+
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4 {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .card-text {
+    color: #d0d0d0;
+}
+
+[data-theme="dark"] p {
+    color: #d0d0d0;
+}
+
 /* Убираем лишние отступы для контейнера */
 .container main {
     padding-bottom: 15px;
@@ -218,6 +237,35 @@ html, body {
 }
 
 [data-theme="dark"] .logo-accent {
+    color: #ff9800;
+}
+
+/* Стили для логотипа в заголовке главной страницы */
+.main-logo-text {
+    font-weight: 600;
+    color: #ee2a7b;
+    transition: color 0.3s ease;
+}
+
+.main-logo-accent {
+    color: #ff9800;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+[data-theme="light"] .main-logo-text {
+    color: #ee2a7b;
+}
+
+[data-theme="light"] .main-logo-accent {
+    color: #e85d04;
+}
+
+[data-theme="dark"] .main-logo-text {
+    color: #bb86fc;
+}
+
+[data-theme="dark"] .main-logo-accent {
     color: #ff9800;
 }
 
@@ -379,5 +427,43 @@ html, body {
 
 [data-theme="dark"] .btn-success:focus:not(:disabled) {
     box-shadow: 0 0 0 1px rgb(255, 255, 255);
+    outline: none;
+}
+
+/* Стили для кнопки Выйти */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+.btn-danger:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+    outline: none;
+}
+
+/* Кнопка Выйти в темной теме */
+[data-theme="dark"] .btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #a93226;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .btn-danger:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
     outline: none;
 } 
