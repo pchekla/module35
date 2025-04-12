@@ -58,6 +58,9 @@ public class Startup
             app.UseHttpsRedirection(); // Перенаправление на HTTPS только в production
         }
 
+        // Добавляем обработку случаев, когда страница не найдена (404)
+        app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
+
         app.UseStaticFiles();
         app.UseRouting();
 
@@ -70,6 +73,12 @@ public class Startup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            
+            // Дополнительный маршрут для обработки Account/Login
+            endpoints.MapControllerRoute(
+                name: "login",
+                pattern: "Account/Login",
+                defaults: new { controller = "Home", action = "Index" });
         });
     }
 } 

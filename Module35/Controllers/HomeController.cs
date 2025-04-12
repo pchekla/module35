@@ -42,4 +42,20 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
+    // Метод для обработки ошибок по коду статуса (например, 404)
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error(int? statusCode)
+    {
+        if (statusCode == 404 || statusCode == 401)
+        {
+            _logger.LogWarning($"Ошибка доступа: {statusCode}. Перенаправление на главную страницу.");
+            
+            // Если страница не найдена или требуется авторизация, перенаправляем на главную
+            TempData["ErrorMessage"] = "Требуется авторизация для доступа к запрашиваемой странице";
+            return RedirectToAction("Index", "Home");
+        }
+        
+        return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
 }
