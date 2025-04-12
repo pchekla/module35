@@ -1,13 +1,13 @@
 @model Module35.ViewModels.RegisterViewModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Завершение регистрации";
 }
 
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
 
-<h2>Регистрация нового пользователя</h2>
+<h2>Завершение регистрации в CosmoBazar</h2>
 <form method="post" asp-controller="Register" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
@@ -47,15 +47,15 @@
     </div>
     <div>
         <label asp-for="PasswordReg"></label><br />
-        <input asp-for="PasswordReg" />
+        <input asp-for="PasswordReg" type="password" />
         <span asp-validation-for="PasswordReg"></span>
     </div>
     <div>
         <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
+        <input asp-for="PasswordConfirm" type="password" />
         <span asp-validation-for="PasswordConfirm"></span>
     </div>
     <div>
-        <input type="submit" value="Регистрация" />
+        <input type="submit" value="Завершить регистрацию" />
     </div>
 </form> 

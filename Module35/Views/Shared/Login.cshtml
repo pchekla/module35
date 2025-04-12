@@ -1,6 +1,6 @@
 @model Module35.ViewModels.LoginViewModel
 
-<h3>Вход в AwesomeNetwork</h3>
+<h3>Вход в CosmoBazar</h3>
 <form method="post" asp-controller="AccountManager" asp-action="Login">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
@@ -10,7 +10,7 @@
     </div>
     <div>
         <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
+        <input asp-for="Password" type="password" />
         <span asp-validation-for="Password"></span>
     </div>
     <div>
