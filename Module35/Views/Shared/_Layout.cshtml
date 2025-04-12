@@ -96,21 +96,27 @@
     
     <header>
         <nav class="navbar navbar-toggleable-sm border-bottom box-shadow mb-2 topnav">
-            <div class="container d-flex justify-content-between">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>
-                </a>
-                <div class="theme-switch-wrapper">
-                    <span class="theme-label light-label">Светлая</span>
-                    <label class="theme-switch">
-                        <input type="checkbox" id="theme-toggle">
-                        <div class="switch-container">
-                            <span class="slider round"></span>
-                            <i class="bi bi-brightness-high-fill icon icon-sun text-warning"></i>
-                            <i class="bi bi-moon-fill icon icon-moon text-dark"></i>
+            <div class="container">
+                <div class="row w-100">
+                    <div class="col">
+                        <a class="navbar-brand pl-0" asp-area="" asp-controller="Home" asp-action="Index">
+                            <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="theme-switch-wrapper">
+                            <span class="theme-label light-label">Светлая</span>
+                            <label class="theme-switch">
+                                <input type="checkbox" id="theme-toggle">
+                                <div class="switch-container">
+                                    <span class="slider round"></span>
+                                    <i class="bi bi-brightness-high-fill icon icon-sun text-warning"></i>
+                                    <i class="bi bi-moon-fill icon icon-moon text-dark"></i>
+                                </div>
+                            </label>
+                            <span class="theme-label dark-label">Темная</span>
                         </div>
-                    </label>
-                    <span class="theme-label dark-label">Темная</span>
+                    </div>
                 </div>
             </div>
         </nav>

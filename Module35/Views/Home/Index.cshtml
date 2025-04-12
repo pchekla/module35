@@ -2,33 +2,33 @@
     ViewData["Title"] = "Главная";
 }
 
-<div class="row fade-in">
-    <div class="col-md-6 text-center">
-        <div class="welcome-info animate-on-scroll">
-            <h2 class="mb-2" style="font-size: 1.5rem;">Пользуйтесь нашей самой крутой соцсетью!</h2>
-            <p class="small">Регистрируйтесь всего за 2 минуты, делитесь мыслями, находите новых друзей.</p>
+<div class="row fade-in mx-0">
+    <div class="col-md-6 pl-0">
+        <div class="welcome-info align-left pl-0">
+            <h2 class="mb-3 text-left">Пользуйтесь нашей самой крутой соцсетью!</h2>
+            <p class="text-left">Регистрируйтесь всего за 2 минуты, делитесь мыслями, находите новых друзей.</p>
             
-            <div class="image-container mt-3">
-                <img src="~/img/logo.png" alt="Логотип CosmoBazar" class="responsive-image image-hover" />
+            <div class="image-container mt-4 text-left">
+                <img src="~/img/logo.png" alt="Логотип CosmoBazar" class="responsive-image mx-0 no-hover" />
             </div>
         </div>
     </div>
 
     <div class="col-md-6">
-        <div class="auth-section mb-3 animate-on-scroll">
+        <div class="auth-section mb-4 no-hover">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center mb-2">Добро пожаловать!</h3>
+                    <h3 class="text-center mb-3">Добро пожаловать!</h3>
                     <partial name="Login" />
                 </div>
             </div>
         </div>
 
-        <div class="reg-section animate-on-scroll">
+        <div class="reg-section no-hover">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center mb-2">Впервые с нами?</h3>
-                    <p class="text-center text-muted small mb-2">Регистрация нового пользователя</p>
+                    <h3 class="text-center mb-3">Впервые с нами?</h3>
+                    <p class="text-center text-muted mb-3">Регистрация нового пользователя</p>
                     <partial name="Register" />
                 </div>
             </div>

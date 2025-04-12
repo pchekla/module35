@@ -1,13 +1,13 @@
 .main {
     -ms-flex: 30%; /* IE10 */
     flex: 30%;
-    padding: 10px;
+    padding: 15px;
 }
 
 .side {
     -ms-flex: 70%; /* IE10 */
     flex: 70%;
-    padding: 10px;
+    padding: 15px;
 }
 
 .row {
@@ -15,26 +15,26 @@
     display: flex;
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     align-items: flex-start;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .footer {
-    padding: 10px;
+    padding: 15px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .topnav {
-    padding: 10px;
-    text-align: center;
+    padding: 12px;
+    text-align: left;
     width: 100%;
 }
 
 /* Добавленные стили для форм */
 .auth-section, .reg-section {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .auth-section .btn-primary {
@@ -46,37 +46,100 @@
 }
 
 .welcome-info {
-    padding: 15px;
+    padding: 20px 15px 20px 0;
     height: 100%;
 }
 
+.welcome-info h2 {
+    font-size: 1.8rem;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.welcome-info p {
+    margin-left: 0;
+    padding-left: 0;
+}
+
 .welcome-info img {
-    max-width: 60%;
-    margin: 15px auto;
+    max-width: 65%;
+    margin: 20px 0;
+    display: block;
+    transition: none;
+}
+
+.welcome-info img:hover {
+    transform: none;
+    opacity: 1;
+}
+
+.image-hover, .responsive-image {
+    transition: none;
+}
+
+.image-hover:hover {
+    transform: none;
+    opacity: 1;
+}
+
+.align-left {
+    text-align: left !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.mx-0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Отключение анимаций и эффектов */
+.no-hover {
+    transition: none !important;
+}
+
+.no-hover:hover, 
+.no-hover .card:hover,
+.no-hover .image-hover:hover,
+.no-hover img:hover,
+.no-hover .btn:hover {
+    transform: none !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1) !important;
+    opacity: 1 !important;
 }
 
 .card {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: none;
+}
+
+.card:hover {
+    transform: none;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 h3 {
     color: #333;
     font-weight: 600;
-    font-size: 1.25rem;
-    margin-bottom: 10px;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
 }
 
 /* Убираем лишние отступы для контейнера */
 .container main {
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 /* Исправление отображения формы регистрации */
 .reg-section {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 /* Высота колонок */
@@ -87,22 +150,23 @@ h3 {
 
 /* Улучшаем отображение карточек */
 .card-body {
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 /* Уменьшаем размер текста */
 p {
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .form-control, .form-select {
-    padding: 0.375rem 0.5rem;
-    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    margin-bottom: 10px;
 }
 
 .btn {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
 }
 
 /* Настройка для уменьшения общей высоты */
@@ -117,6 +181,12 @@ html, body {
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.pl-0 {
+    padding-left: 0 !important;
 }
 
 .logo-text {
@@ -137,6 +207,29 @@ html, body {
     color: #e85d04;
 }
 
+/* Выравнивание контента */
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+.container .row.w-100 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
     .row {
@@ -148,10 +241,10 @@ html, body {
     }
     
     .auth-section, .reg-section {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
     
     .card-body {
-        padding: 0.75rem;
+        padding: 1rem;
     }
 } 

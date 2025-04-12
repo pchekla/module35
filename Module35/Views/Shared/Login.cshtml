@@ -3,24 +3,24 @@
 <form method="post" asp-controller="AccountManager" asp-action="Login">
     <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
     
-    <div class="form-group mb-1">
-        <input asp-for="Email" class="form-control form-control-sm" placeholder="Введите email" />
+    <div class="form-group mb-3">
+        <input asp-for="Email" class="form-control" placeholder="Введите email" />
         <span asp-validation-for="Email" class="text-danger small"></span>
     </div>
     
-    <div class="form-group mb-1">
-        <input asp-for="Password" type="password" class="form-control form-control-sm" placeholder="Введите пароль" />
+    <div class="form-group mb-3">
+        <input asp-for="Password" type="password" class="form-control" placeholder="Введите пароль" />
         <span asp-validation-for="Password" class="text-danger small"></span>
     </div>
     
-    <div class="form-group mb-1">
+    <div class="form-group mb-3">
         <div class="form-check custom-checkbox">
             <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="rememberMe" />
-            <label asp-for="RememberMe" class="form-check-label small" for="rememberMe">Запомнить меня</label>
+            <label asp-for="RememberMe" class="form-check-label" for="rememberMe">Запомнить меня</label>
         </div>
     </div>
     
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-sm w-100">Войти</button>
+        <button type="submit" class="btn btn-primary w-100">Войти</button>
     </div>
 </form> 
