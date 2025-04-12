@@ -335,14 +335,49 @@ html, body {
 .btn:disabled {
     opacity: 0.65;
     cursor: not-allowed;
+    box-shadow: none !important;
 }
 
 .btn-success:disabled {
     background-color: #4CA056;
     border-color: #4CA056;
+    box-shadow: none !important;
 }
 
 /* Стили для анимации активации кнопки */
 .btn-success {
-    transition: background-color 0.3s, opacity 0.3s;
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 2px rgb(255, 255, 255);
+}
+
+.btn-success:hover:not(:disabled) {
+    background-color: #218838;
+    border-color: #1e7e34;
+    box-shadow: 0 0 0 1px rgb(255, 255, 255);
+}
+
+.btn-success:focus:not(:disabled) {
+    box-shadow: 0 0 0 1px rgb(255, 255, 255);
+    outline: none;
+}
+
+/* Стили для кнопки продолжения регистрации в темной теме */
+[data-theme="dark"] .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: 0 0 0 1px rgb(255, 255, 255);
+}
+
+[data-theme="dark"] .btn-success:hover:not(:disabled) {
+    background-color: #218838;
+    border-color: #1e7e34;
+    box-shadow: 0 0 0 1px rgb(255, 255, 255);
+}
+
+[data-theme="dark"] .btn-success:focus:not(:disabled) {
+    box-shadow: 0 0 0 1px rgb(255, 255, 255);
+    outline: none;
 } 
