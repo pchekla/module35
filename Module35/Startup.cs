@@ -17,25 +17,22 @@ public class Startup
     // Метод для настройки сервисов приложения
     public void ConfigureServices(IServiceCollection services)
     {
+        // Получаем строку подключения из конфигурации
+        string connection = Configuration.GetConnectionString("DefaultConnection");
+        
         // Добавляем контекст базы данных
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<ApplicationDbContext>(options => 
+            options.UseSqlServer(connection));
 
-        // Добавляем Identity
-        services.AddIdentity<User, IdentityRole>(options => {
-                // Настройки пароля
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                
-                // Настройки пользователя
-                options.User.RequireUniqueEmail = true;
+        // Добавляем Identity с настройками паролей
+        services.AddIdentity<User, IdentityRole>(opts => {
+                opts.Password.RequiredLength = 5;   
+                opts.Password.RequireNonAlphanumeric = false;  
+                opts.Password.RequireLowercase = false; 
+                opts.Password.RequireUppercase = false; 
+                opts.Password.RequireDigit = false;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         // Добавляем контроллеры и представления
         services.AddControllersWithViews();
