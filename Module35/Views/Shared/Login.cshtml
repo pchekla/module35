@@ -1,0 +1,23 @@
+@model Module35.ViewModels.LoginViewModel
+
+<h3>Вход в AwesomeNetwork</h3>
+<form method="post" asp-controller="AccountManager" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="RememberMe"></label><br />
+        <input asp-for="RememberMe" />
+    </div>
+    <div>
+        <input type="submit" value="Войти" />
+    </div>
+</form> 
