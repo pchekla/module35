@@ -38,7 +38,7 @@ public class AccountManagerController : Controller
             if (string.IsNullOrEmpty(user.UserName))
             {
                 ModelState.AddModelError("", "Email не может быть пустым");
-                return View("Views/Home/Index.cshtml");
+                return RedirectToAction("Index", "Home");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
@@ -50,7 +50,7 @@ public class AccountManagerController : Controller
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Main", "Home");
                 }
             }
             else
@@ -58,7 +58,7 @@ public class AccountManagerController : Controller
                 ModelState.AddModelError("", "Неправильный логин и (или) пароль");
             }
         }
-        return View("Views/Home/Index.cshtml");
+        return RedirectToAction("Index", "Home");
     }
 
     [Route("Logout")]

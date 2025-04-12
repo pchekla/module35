@@ -2,22 +2,26 @@
 
 <h3>Вход в CosmoBazar</h3>
 <form method="post" asp-controller="AccountManager" asp-action="Login">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="form-group mb-3">
+        <input asp-for="Email" class="form-control" placeholder="Введите email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
+    
+    <div class="form-group mb-3">
+        <input asp-for="Password" type="password" class="form-control" placeholder="Введите пароль" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <div>
-        <label asp-for="RememberMe"></label><br />
-        <input asp-for="RememberMe" />
+    
+    <div class="form-group mb-3">
+        <div class="form-check">
+            <input asp-for="RememberMe" class="form-check-input" />
+            <label asp-for="RememberMe" class="form-check-label">Запомнить меня</label>
+        </div>
     </div>
-    <div>
-        <input type="submit" value="Войти" />
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary w-100">Войти</button>
     </div>
 </form> 

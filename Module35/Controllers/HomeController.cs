@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Module35.Models;
 
@@ -15,6 +16,19 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Если пользователь авторизован, перенаправляем на страницу для авторизованных пользователей
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return RedirectToAction("Main");
+        }
+        
+        return View();
+    }
+    
+    [Authorize]
+    public IActionResult Main()
+    {
+        // Это страница для авторизованных пользователей
         return View();
     }
 

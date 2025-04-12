@@ -1,0 +1,234 @@
+/* Стили для переключателя темы */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    position: relative;
+    width: 220px;
+    height: 44px;
+    cursor: pointer;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f0f0f0;
+    transition: .4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 36px;
+    width: 36px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode-label, .dark-mode-label {
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 1;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    right: 0;
+}
+
+/* Стили для лейблов в двух состояниях */
+.light-mode-label {
+    color: white;
+    display: none;
+}
+
+.dark-mode-label {
+    color: #333;
+}
+
+/* В светлом режиме показываем текст темного режима */
+body:not([data-theme="dark"]) .dark-mode-label {
+    display: block;
+}
+
+body:not([data-theme="dark"]) .light-mode-label {
+    display: none;
+}
+
+/* В темном режиме показываем текст светлого режима */
+body[data-theme="dark"] .light-mode-label {
+    display: block;
+}
+
+body[data-theme="dark"] .dark-mode-label {
+    display: none;
+}
+
+input:checked + .slider {
+    background-color: #222;
+}
+
+input:checked + .slider:before {
+    transform: translateX(176px);
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sun-icon {
+    color: #ffa500;
+    left: 15px;
+}
+
+.moon-icon {
+    color: #c4c4c4;
+    right: 15px;
+}
+
+/* Тёмная тема для сайта */
+:root {
+    --background-color: #fff;
+    --text-color: #333;
+    --card-bg: #fff;
+    --card-border: #ddd;
+    --input-bg: #fff;
+    --input-border: #ced4da;
+    --input-text: #333;
+    --input-placeholder: #6c757d;
+    --select-option-bg: #fff;
+    --btn-primary-bg: #4e73df;
+    --btn-success-bg: #1e7e34;
+    --footer-bg: #f8f9fa;
+    --footer-text: #6c757d;
+    --validation-text: #dc3545;
+}
+
+[data-theme="dark"] {
+    --background-color: #222;
+    --text-color: #eee;
+    --card-bg: #333;
+    --card-border: #444;
+    --input-bg: #444;
+    --input-border: #555;
+    --input-text: #eee;
+    --input-placeholder: #aaa;
+    --select-option-bg: #555;
+    --btn-primary-bg: #375abd;
+    --btn-success-bg: #166a2b;
+    --footer-bg: #222;
+    --footer-text: #aaa;
+    --validation-text: #ff6b6b;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-control, .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--input-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+}
+
+/* Фикс для выпадающих списков в темной теме */
+[data-theme="dark"] .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Фикс для опций в выпадающих списках */
+[data-theme="dark"] option {
+    background-color: var(--select-option-bg);
+    color: var(--input-text);
+}
+
+.form-control::placeholder {
+    color: var(--input-placeholder);
+}
+
+.form-check-label {
+    color: var(--text-color);
+}
+
+.form-check-input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+label {
+    color: var(--text-color);
+}
+
+.text-danger {
+    color: var(--validation-text) !important;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: var(--text-color);
+}
+
+.text-muted {
+    color: var(--footer-text) !important;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg);
+}
+
+.btn-success {
+    background-color: var(--btn-success-bg);
+}
+
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    border-top-color: var(--card-border) !important;
+} 

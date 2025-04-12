@@ -2,17 +2,44 @@
     ViewData["Title"] = "Главная";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="row">
-    <div class="side">
-        <h2>Добро пожаловать в CosmoBazar</h2>
-        <p>Самая клевая социальная сеть для общения с друзьями и знакомыми!</p>
-        <p>Присоединяйтесь прямо сейчас и будьте в курсе всех событий.</p>
+    <div class="col-md-7 text-center">
+        <div class="welcome-info">
+            <h2 class="mb-3">Пользуйтесь нашей самой крутой соцсетью!</h2>
+            <p>Регистрируйтесь всего за 2 минуты, делитесь мыслями, находите новых друзей.</p>
+            
+            <div class="image-container mt-4">
+                <img src="~/img/logo.png" alt="Логотип CosmoBazar" class="responsive-image image-hover" />
+            </div>
+        </div>
     </div>
 
+    <div class="col-md-5">
+        <div class="auth-section mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center mb-3">Добро пожаловать!</h3>
+                    <partial name="Login" />
+                </div>
+            </div>
+        </div>
 
-    <div class="main">
-        <partial name="Register" />
-        <partial name="Login" />
+        <div class="reg-section">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center mb-3">Впервые с нами?</h3>
+                    <p class="text-center text-muted">Регистрация нового пользователя</p>
+                    <partial name="Register" />
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>

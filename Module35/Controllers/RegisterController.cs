@@ -44,7 +44,7 @@ public class RegisterController : Controller
             var result = await _userManager.CreateAsync(user, model.PasswordReg);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
+                TempData["SuccessMessage"] = "Регистрация успешно завершена! Войдите используя свои учетные данные.";
                 return RedirectToAction("Index", "Home");
             }
             else

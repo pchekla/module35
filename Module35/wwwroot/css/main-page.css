@@ -4,7 +4,6 @@
     padding: 20px;
 }
 
-
 .side {
     -ms-flex: 70%; /* IE10 */
     flex: 70%;
@@ -27,4 +26,36 @@
     padding: 20px;
     text-align: center;
     width: 100%;
+}
+
+/* Добавленные стили для форм */
+.auth-section, .reg-section {
+    margin-bottom: 20px;
+}
+
+.auth-section .btn-primary {
+    background-color: #4e73df;
+}
+
+.reg-section .btn-success {
+    background-color: #1e7e34;
+}
+
+.welcome-info {
+    padding: 30px;
+}
+
+.welcome-info img {
+    max-width: 70%;
+    margin: 20px auto;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h3 {
+    color: #333;
+    font-weight: 600;
 } 

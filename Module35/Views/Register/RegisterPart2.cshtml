@@ -4,58 +4,56 @@
     ViewData["Title"] = "Завершение регистрации";
 }
 
-<h2>Регистрация нового пользователя</h2>
-<form method="post" asp-controller="Register" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="FirstName"></label><br />
-        <input asp-for="FirstName" />
-        <span asp-validation-for="FirstName"></span>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Завершение регистрации в CosmoBazar</h2>
+                    
+                    <form method="post" asp-controller="Register" asp-action="Register">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <!-- Скрытые поля для сохранения данных с первого шага -->
+                        <input type="hidden" asp-for="FirstName" />
+                        <input type="hidden" asp-for="LastName" />
+                        <input type="hidden" asp-for="Date" />
+                        <input type="hidden" asp-for="Month" />
+                        <input type="hidden" asp-for="Year" />
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Login">Никнейм</label>
+                            <input asp-for="Login" class="form-control" placeholder="Введите никнейм" />
+                            <span asp-validation-for="Login" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="EmailReg">Email</label>
+                            <input asp-for="EmailReg" class="form-control" placeholder="Введите email" />
+                            <span asp-validation-for="EmailReg" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="PasswordReg">Пароль</label>
+                            <input asp-for="PasswordReg" type="password" class="form-control" placeholder="Введите пароль" />
+                            <span asp-validation-for="PasswordReg" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="PasswordConfirm">Подтверждение пароля</label>
+                            <input asp-for="PasswordConfirm" type="password" class="form-control" placeholder="Повторите пароль" />
+                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success w-100">Завершить регистрацию</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label asp-for="LastName"></label><br />
-        <input asp-for="LastName" />
-        <span asp-validation-for="LastName"></span>
-    </div>
-    <div>
-        <label asp-for="Login"></label><br />
-        <input asp-for="Login" />
-        <span asp-validation-for="Login"></span>
-    </div>
-    <div>
-        <label asp-for="EmailReg"></label><br />
-        <input asp-for="EmailReg" />
-        <span asp-validation-for="EmailReg"></span>
-    </div>
-    <div>
-        <label asp-for="Date"></label><br />
-        <input asp-for="Date" />
-        <span asp-validation-for="Date"></span>
-    </div>
-    <div>
-        <label asp-for="Month"></label><br />
-        <input asp-for="Month" />
-        <span asp-validation-for="Month"></span>
-    </div>
-    <div>
-        <label asp-for="Year"></label><br />
-        <input asp-for="Year" />
-        <span asp-validation-for="Year"></span>
-    </div>
-    <div>
-        <label asp-for="PasswordReg"></label><br />
-        <input asp-for="PasswordReg" type="password" />
-        <span asp-validation-for="PasswordReg"></span>
-    </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" type="password" />
-        <span asp-validation-for="PasswordConfirm"></span>
-    </div>
-    <div>
-        <input type="submit" value="Регистрация" />
-    </div>
-</form>
+</div>
 
 @section Scripts {
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>

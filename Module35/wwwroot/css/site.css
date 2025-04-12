@@ -21,6 +21,76 @@ body {
   margin-bottom: 60px;
 }
 
+/* Адаптивное масштабирование изображений */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.responsive-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.image-container img {
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+}
+
+/* Масштабирование изображений на разных устройствах */
+@media (max-width: 576px) {
+  .responsive-image.sm {
+    width: 100%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .responsive-image.md {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .responsive-image.lg {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-image.xl {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+/* Фоновые изображения с адаптивным масштабированием */
+.bg-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+
+/* Эффекты при наведении на изображения */
+.image-hover {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
