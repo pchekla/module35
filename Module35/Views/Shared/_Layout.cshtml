@@ -88,7 +88,7 @@
     <link rel="stylesheet" href="~/css/custom-checkbox.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body class="no-js">
+<body class="no-js d-flex flex-column min-vh-100">
     <!-- Прелоадер -->
     <div id="preloader">
         <div class="spinner"></div>
@@ -121,16 +121,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container flex-grow-1">
         <main role="main">
             @await Html.PartialAsync("_Notification")
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-auto">
         <div class="container">
-            <span>&copy; 2023 - CosmoBazar</span>
+            <span>&copy; 2025 - CosmoBazar</span>
             <span class="mx-2">-</span>
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
