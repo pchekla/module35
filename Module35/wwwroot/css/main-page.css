@@ -194,19 +194,37 @@ html, body {
 .logo-text {
     font-weight: 600;
     color: #ee2a7b;
+    transition: color 0.3s ease;
 }
 
 .logo-accent {
     color: #ff9800;
     font-weight: 700;
+    transition: color 0.3s ease;
 }
 
+/* Стили для светлой темы */
 [data-theme="light"] .logo-text {
     color: #ee2a7b;
 }
 
 [data-theme="light"] .logo-accent {
     color: #e85d04;
+}
+
+/* Добавляем стили для темной темы */
+[data-theme="dark"] .logo-text {
+    color: #bb86fc;
+}
+
+[data-theme="dark"] .logo-accent {
+    color: #ff9800;
+}
+
+/* Стили при наведении */
+.navbar-brand:hover .logo-text,
+.navbar-brand:hover .logo-accent {
+    color: #ff5aad;
 }
 
 /* Выравнивание контента */

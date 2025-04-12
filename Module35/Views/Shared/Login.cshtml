@@ -1,15 +1,15 @@
 @model Module35.ViewModels.LoginViewModel
 
-<form method="post" asp-controller="AccountManager" asp-action="Login">
+<form method="post" asp-controller="AccountManager" asp-action="Login" id="loginForm">
     <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
     
     <div class="form-group mb-3">
-        <input asp-for="Email" class="form-control" placeholder="Введите email" />
+        <input asp-for="Email" id="loginEmail" class="form-control" placeholder="Введите email" required />
         <span asp-validation-for="Email" class="text-danger small"></span>
     </div>
     
     <div class="form-group mb-3">
-        <input asp-for="Password" type="password" class="form-control" placeholder="Введите пароль" />
+        <input asp-for="Password" id="loginPassword" type="password" class="form-control" placeholder="Введите пароль" required />
         <span asp-validation-for="Password" class="text-danger small"></span>
     </div>
     
@@ -21,6 +21,35 @@
     </div>
     
     <div class="form-group">
-        <button type="submit" class="btn btn-primary w-100">Войти</button>
+        <button type="submit" id="loginButton" class="btn btn-primary w-100">Войти</button>
     </div>
-</form> 
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем кнопку и все поля формы
+        const button = document.getElementById('loginButton');
+        const form = document.getElementById('loginForm');
+        const email = document.getElementById('loginEmail');
+        const password = document.getElementById('loginPassword');
+        
+        // Сначала делаем кнопку неактивной
+        button.disabled = true;
+        
+        // Функция проверки формы
+        function checkForm() {
+            if (email.value && password.value) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        }
+        
+        // Добавляем обработчики событий
+        email.addEventListener('input', checkForm);
+        password.addEventListener('input', checkForm);
+        
+        // Проверяем форму сразу после загрузки
+        checkForm();
+    });
+</script> 
