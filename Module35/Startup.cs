@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Module35.Data;
 using Module35.Models;
+using System.Reflection;
 
 namespace Module35;
 
@@ -34,6 +35,9 @@ public class Startup
                 opts.Password.RequireDigit = false;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        // Добавляем AutoMapper
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         // Добавляем контроллеры и представления
         services.AddControllersWithViews();
