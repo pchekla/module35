@@ -4,16 +4,16 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<form method="get" asp-controller="Register" asp-action="RegisterPart2">
+<form method="get" asp-controller="Register" asp-action="RegisterPart2" id="registerForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     
     <div class="form-group mb-3">
-        <input asp-for="FirstName" class="form-control" placeholder="Введите имя" />
+        <input asp-for="FirstName" class="form-control" placeholder="Введите имя" required />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
     
     <div class="form-group mb-3">
-        <input asp-for="LastName" class="form-control" placeholder="Введите фамилию" />
+        <input asp-for="LastName" class="form-control" placeholder="Введите фамилию" required />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     
@@ -22,8 +22,8 @@
             <label class="birth-date-label mb-2">Дата рождения</label>
             <div class="row g-2 mt-1">
                 <div class="col-4">
-                    <select asp-for="Date" class="form-select">
-                        <option selected>День</option>
+                    <select asp-for="Date" id="dateSelect" class="form-select date-field" required>
+                        <option value="">День</option>
                         @for (int i = 1; i <= 31; i++)
                         {
                             <option value="@i">@i</option>
@@ -31,8 +31,8 @@
                     </select>
                 </div>
                 <div class="col-4">
-                    <select asp-for="Month" class="form-select">
-                        <option selected>Месяц</option>
+                    <select asp-for="Month" id="monthSelect" class="form-select date-field" required>
+                        <option value="">Месяц</option>
                         @for (int i = 1; i <= 12; i++)
                         {
                             <option value="@i">@i</option>
@@ -40,8 +40,8 @@
                     </select>
                 </div>
                 <div class="col-4">
-                    <select asp-for="Year" class="form-select">
-                        <option selected>Год</option>
+                    <select asp-for="Year" id="yearSelect" class="form-select date-field" required>
+                        <option value="">Год</option>
                         @for (int i = DateTime.Now.Year - 100; i <= DateTime.Now.Year - 14; i++)
                         {
                             <option value="@i">@i</option>
@@ -53,9 +53,48 @@
     </div>
     
     <div class="form-group mt-3">
-        <button type="submit" class="btn btn-success w-100">Продолжить регистрацию</button>
+        <button type="submit" id="registerButton" class="btn btn-success w-100">Продолжить регистрацию</button>
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем кнопку и все поля формы
+        const button = document.getElementById('registerButton');
+        const form = document.getElementById('registerForm');
+        const firstName = document.getElementById('FirstName');
+        const lastName = document.getElementById('LastName');
+        const dateSelect = document.getElementById('dateSelect');
+        const monthSelect = document.getElementById('monthSelect');
+        const yearSelect = document.getElementById('yearSelect');
+        
+        // Сначала делаем кнопку неактивной
+        button.disabled = true;
+        
+        // Функция проверки формы
+        function checkForm() {
+            if (firstName.value && 
+                lastName.value && 
+                dateSelect.value && 
+                monthSelect.value && 
+                yearSelect.value) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        }
+        
+        // Добавляем обработчики событий
+        firstName.addEventListener('input', checkForm);
+        lastName.addEventListener('input', checkForm);
+        dateSelect.addEventListener('change', checkForm);
+        monthSelect.addEventListener('change', checkForm);
+        yearSelect.addEventListener('change', checkForm);
+        
+        // Проверяем форму сразу после загрузки
+        checkForm();
+    });
+</script>
 
 @section Scripts {
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
