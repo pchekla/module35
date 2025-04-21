@@ -53,6 +53,21 @@ public class FriendsController : Controller
                 .Select(fr => new FriendViewModel(fr.Friend, fr))
                 .ToList();
 
+            // Получаем также отношения, где пользователь был получателем запроса
+            var receivedFriendships = await _context.FriendRelations
+                .Include(fr => fr.User)
+                .Where(fr => fr.FriendId == currentUser.Id && fr.IsAccepted)
+                .ToListAsync();
+
+            // Добавляем к списку друзей обоих направлений отношений
+            var receivedFriends = receivedFriendships
+                .Select(fr => new FriendViewModel(fr.User, fr))
+                .ToList();
+
+            model.Friends.AddRange(receivedFriends);
+
+            _logger.LogInformation($"Загружено {model.Friends.Count} друзей: {acceptedFriendships.Count} отправленных и {receivedFriendships.Count} полученных");
+
             // Получение входящих запросов в друзья
             var pendingRequests = await _context.FriendRelations
                 .Include(fr => fr.User)

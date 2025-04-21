@@ -32,10 +32,11 @@
                             <div class="mb-3">
                                 @if (Model.IsFriend)
                                 {
-                                    <form asp-controller="Friends" asp-action="RemoveFriend" method="post" class="d-inline">
-                                        <input type="hidden" name="relationId" value="@Model.RelationId" />
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="bi bi-person-dash me-1"></i> Удалить из друзей
+                                    <form asp-controller="Friends" asp-action="RemoveFriend" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="relationId" value="@Model.RelationId">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-person-dash-fill"></i> Удалить из друзей
                                         </button>
                                     </form>
                                 }

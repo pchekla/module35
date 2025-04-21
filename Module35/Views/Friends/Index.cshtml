@@ -77,9 +77,6 @@
                                                                 </button>
                                                             </form>
                                                         }
-                                                        <a href="/UserProfile/@user.Id" class="btn btn-sm btn-outline-primary ms-2">
-                                                            <i class="bi bi-person-badge"></i> Профиль
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -135,13 +132,10 @@
                                                         <form asp-action="RemoveFriend" method="post" class="d-inline">
                                                             @Html.AntiForgeryToken()
                                                             <input type="hidden" name="relationId" value="@friend.RelationId">
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="bi bi-person-dash-fill me-1"></i> Удалить из друзей
                                                             </button>
                                                         </form>
-                                                        <a href="/UserProfile/@friend.Id" class="btn btn-sm btn-outline-primary ms-2">
-                                                            <i class="bi bi-person-badge"></i> Профиль
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,7 +190,7 @@
                                         <form asp-action="DeclineFriendRequest" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@request.RelationId">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <button type="submit" class="btn btn-sm btn-danger">
                                                 <i class="bi bi-x-lg me-1"></i> Отклонить
                                             </button>
                                         </form>
@@ -234,7 +228,7 @@
                                         <form asp-action="CancelFriendRequest" method="post">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@request.RelationId">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <button type="submit" class="btn btn-sm btn-danger">
                                                 <i class="bi bi-x-circle me-1"></i> Отменить
                                             </button>
                                         </form>
