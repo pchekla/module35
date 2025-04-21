@@ -4,19 +4,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-lg-8">
+            <!-- Карточка поиска друзей -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="m-0 font-weight-bold text-primary">Поиск друзей</h5>
+                <div class="card-header py-3 bg-primary">
+                    <h5 class="m-0 font-weight-bold text-white">Поиск друзей</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form asp-action="Index" method="get" class="mb-4">
                         <div class="input-group">
-                            <input type="text" name="query" value="@Model.SearchQuery" class="form-control" placeholder="Введите имя или email..." />
+                            <input type="text" name="query" value="@Model.SearchQuery" class="form-control form-control-lg" placeholder="Введите имя или email для поиска" />
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Поиск</button>
+                                <button class="btn btn-primary px-4" type="submit">Поиск</button>
                             </div>
                         </div>
                     </form>
@@ -30,46 +31,56 @@
 
                     @if (!string.IsNullOrEmpty(Model.SearchQuery) && Model.SearchResults.Any())
                     {
-                        <h6 class="mt-4 mb-3">Результаты поиска для "@Model.SearchQuery"</h6>
+                        <h5 class="mt-4 mb-3 border-bottom pb-2">
+                            Результаты поиска для "@Model.SearchQuery" <span class="badge bg-primary">@Model.SearchResults.Count</span>
+                        </h5>
                         <div class="row">
                             @foreach (var user in Model.SearchResults)
                             {
-                                <div class="col-md-6 mb-3">
-                                    <div class="card">
-                                        <div class="card-body d-flex">
-                                            <div class="mr-3">
-                                                <img src="@(string.IsNullOrEmpty(user.Image) ? "/images/default-avatar.png" : user.Image)" 
-                                                     class="rounded-circle" alt="Avatar" style="width: 60px; height: 60px; object-fit: cover;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">
-                                                    <a asp-controller="Friends" asp-action="ViewProfile" asp-route-userId="@user.Id">
-                                                        @user.FullName
-                                                    </a>
-                                                </h6>
-                                                <p class="text-muted small mb-2">
-                                                    @(user.BirthDate.HasValue ? user.BirthDate.Value.ToShortDateString() : "")
-                                                </p>
-                                                @if (user.RelationId.HasValue && user.IsRequestPending)
-                                                {
-                                                    <span class="badge badge-warning">Запрос в ожидании</span>
-                                                }
-                                                else if (user.RelationId.HasValue && !user.IsRequestPending)
-                                                {
-                                                    <span class="badge badge-success">Друзья</span>
-                                                }
-                                                else
-                                                {
-                                                    <form asp-action="SendFriendRequest" method="post">
-                                                        @Html.AntiForgeryToken()
-                                                        <input type="hidden" name="userId" value="@user.Id">
-                                                        <button type="submit" class="btn btn-sm btn-primary">Добавить в друзья</button>
-                                                    </form>
-                                                }
-                                                <div class="mt-3 d-flex justify-content-between">
-                                                    <a href="/UserProfile/@user.Id" class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-person-fill me-1"></i> Профиль
-                                                    </a>
+                                <div class="col-12 mb-3">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex">
+                                                <div class="me-3">
+                                                    <img src="@(string.IsNullOrEmpty(user.Image) ? "/img/logo.png" : user.Image)" 
+                                                         class="rounded-circle" alt="@user.FullName" 
+                                                         style="width: 80px; height: 80px; object-fit: cover;">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="card-title mb-1">
+                                                        <a href="/UserProfile/@user.Id" class="text-decoration-none text-primary">
+                                                            @user.FullName
+                                                        </a>
+                                                    </h5>
+                                                    @if (user.BirthDate.HasValue)
+                                                    {
+                                                        <p class="text-muted small mb-2">
+                                                            <i class="bi bi-calendar-date"></i> @user.BirthDate.Value.ToShortDateString()
+                                                        </p>
+                                                    }
+                                                    <div class="mt-2">
+                                                        @if (user.RelationId.HasValue && user.IsRequestPending)
+                                                        {
+                                                            <span class="badge bg-warning text-dark px-3 py-2">Запрос отправлен</span>
+                                                        }
+                                                        else if (user.RelationId.HasValue && !user.IsRequestPending)
+                                                        {
+                                                            <span class="badge bg-success px-3 py-2">Уже в друзьях</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <form asp-action="SendFriendRequest" method="post" class="d-inline">
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="hidden" name="userId" value="@user.Id">
+                                                                <button type="submit" class="btn btn-sm btn-primary">
+                                                                    <i class="bi bi-person-plus-fill me-1"></i> Добавить в друзья
+                                                                </button>
+                                                            </form>
+                                                        }
+                                                        <a href="/UserProfile/@user.Id" class="btn btn-sm btn-outline-primary ms-2">
+                                                            <i class="bi bi-person-badge"></i> Профиль
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,48 +91,58 @@
                     }
                     else if (!string.IsNullOrEmpty(Model.SearchQuery))
                     {
-                        <div class="alert alert-info mt-3" role="alert">
-                            По запросу "@Model.SearchQuery" ничего не найдено.
+                        <div class="alert alert-info mt-3 p-4 text-center" role="alert">
+                            <i class="bi bi-search me-2"></i> По запросу "<strong>@Model.SearchQuery</strong>" ничего не найдено.
+                            <p class="mt-2 mb-0 small">Попробуйте изменить поисковой запрос.</p>
                         </div>
                     }
                 </div>
             </div>
 
+            <!-- Карточка моих друзей -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Мои друзья (@Model.Friends.Count)</h5>
+                <div class="card-header py-3 bg-primary">
+                    <h5 class="m-0 font-weight-bold text-white">Мои друзья <span class="badge bg-light text-primary">@Model.Friends.Count</span></h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     @if (Model.Friends.Any())
                     {
                         <div class="row">
                             @foreach (var friend in Model.Friends)
                             {
-                                <div class="col-md-6 mb-3">
-                                    <div class="card">
-                                        <div class="card-body d-flex">
-                                            <div class="mr-3">
-                                                <img src="@(string.IsNullOrEmpty(friend.Image) ? "/images/default-avatar.png" : friend.Image)" 
-                                                     class="rounded-circle" alt="Avatar" style="width: 60px; height: 60px; object-fit: cover;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1">
-                                                    <a asp-controller="Friends" asp-action="ViewProfile" asp-route-userId="@friend.Id">
-                                                        @friend.FullName
-                                                    </a>
-                                                </h6>
-                                                <p class="text-muted small mb-2">
-                                                    @(friend.BirthDate.HasValue ? friend.BirthDate.Value.ToShortDateString() : "")
-                                                </p>
-                                                <form asp-action="RemoveFriend" method="post" style="display: inline;">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="relationId" value="@friend.RelationId">
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить из друзей</button>
-                                                </form>
-                                                <div class="mt-3 d-flex justify-content-between">
-                                                    <a href="/UserProfile/@friend.Id" class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-person-fill me-1"></i> Профиль
-                                                    </a>
+                                <div class="col-12 mb-3">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex">
+                                                <div class="me-3">
+                                                    <img src="@(string.IsNullOrEmpty(friend.Image) ? "/img/logo.png" : friend.Image)" 
+                                                         class="rounded-circle" alt="@friend.FullName" 
+                                                         style="width: 80px; height: 80px; object-fit: cover;">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="card-title mb-1">
+                                                        <a href="/UserProfile/@friend.Id" class="text-decoration-none text-primary">
+                                                            @friend.FullName
+                                                        </a>
+                                                    </h5>
+                                                    @if (friend.BirthDate.HasValue)
+                                                    {
+                                                        <p class="text-muted small mb-2">
+                                                            <i class="bi bi-calendar-date"></i> @friend.BirthDate.Value.ToShortDateString()
+                                                        </p>
+                                                    }
+                                                    <div class="mt-2">
+                                                        <form asp-action="RemoveFriend" method="post" class="d-inline">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="relationId" value="@friend.RelationId">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                                <i class="bi bi-person-dash-fill me-1"></i> Удалить из друзей
+                                                            </button>
+                                                        </form>
+                                                        <a href="/UserProfile/@friend.Id" class="btn btn-sm btn-outline-primary ms-2">
+                                                            <i class="bi bi-person-badge"></i> Профиль
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -132,48 +153,55 @@
                     }
                     else
                     {
-                        <p class="text-muted">У вас пока нет друзей. Используйте поиск, чтобы найти друзей.</p>
+                        <div class="alert alert-info p-4 text-center">
+                            <i class="bi bi-people me-2"></i> У вас пока нет друзей.
+                            <p class="mt-2 mb-0">Используйте поиск выше, чтобы найти и добавить друзей.</p>
+                        </div>
                     }
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-4">
+            <!-- Входящие запросы в друзья -->
             @if (Model.PendingRequests.Any())
             {
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Запросы в друзья (@Model.PendingRequests.Count)</h6>
+                    <div class="card-header py-3 bg-warning">
+                        <h5 class="m-0 font-weight-bold">Входящие запросы <span class="badge bg-light text-dark">@Model.PendingRequests.Count</span></h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         @foreach (var request in Model.PendingRequests)
                         {
                             <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                                <div class="mr-3">
-                                    <img src="@(string.IsNullOrEmpty(request.Image) ? "/images/default-avatar.png" : request.Image)" 
-                                         class="rounded-circle" alt="Avatar" style="width: 50px; height: 50px; object-fit: cover;">
+                                <div class="me-3">
+                                    <img src="@(string.IsNullOrEmpty(request.Image) ? "/img/logo.png" : request.Image)" 
+                                         class="rounded-circle" alt="@request.FullName" 
+                                         style="width: 60px; height: 60px; object-fit: cover;">
                                 </div>
-                                <div>
+                                <div class="flex-grow-1">
                                     <h6 class="mb-1">
-                                        <a asp-controller="Friends" asp-action="ViewProfile" asp-route-userId="@request.Id">
+                                        <a href="/UserProfile/@request.Id" class="text-decoration-none">
                                             @request.FullName
                                         </a>
                                     </h6>
-                                    <div class="mt-1">
-                                        <form asp-action="AcceptFriendRequest" method="post" style="display: inline-block;">
+                                    <div class="mt-2 d-flex gap-2">
+                                        <form asp-action="AcceptFriendRequest" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@request.RelationId">
-                                            <button type="submit" class="btn btn-sm btn-success">Принять</button>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-lg me-1"></i> Принять
+                                            </button>
                                         </form>
-                                        <form asp-action="DeclineFriendRequest" method="post" style="display: inline-block;">
+                                        <form asp-action="DeclineFriendRequest" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@request.RelationId">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Отклонить</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-x-lg me-1"></i> Отклонить
+                                            </button>
                                         </form>
-                                    </div>
-                                    <div class="mt-3 d-flex justify-content-between">
-                                        <a href="/UserProfile/@request.Id" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-person-fill me-1"></i> Профиль
+                                        <a href="/UserProfile/@request.Id" class="btn btn-sm btn-outline-primary ms-auto">
+                                            <i class="bi bi-person-badge"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -183,36 +211,38 @@
                 </div>
             }
 
+            <!-- Исходящие запросы в друзья -->
             @if (Model.OutgoingRequests.Any())
             {
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Исходящие запросы (@Model.OutgoingRequests.Count)</h6>
+                    <div class="card-header py-3 bg-info">
+                        <h5 class="m-0 font-weight-bold text-white">Исходящие запросы <span class="badge bg-light text-dark">@Model.OutgoingRequests.Count</span></h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         @foreach (var request in Model.OutgoingRequests)
                         {
                             <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                                <div class="mr-3">
-                                    <img src="@(string.IsNullOrEmpty(request.Image) ? "/images/default-avatar.png" : request.Image)" 
-                                         class="rounded-circle" alt="Avatar" style="width: 50px; height: 50px; object-fit: cover;">
+                                <div class="me-3">
+                                    <img src="@(string.IsNullOrEmpty(request.Image) ? "/img/logo.png" : request.Image)" 
+                                         class="rounded-circle" alt="@request.FullName" 
+                                         style="width: 60px; height: 60px; object-fit: cover;">
                                 </div>
-                                <div>
+                                <div class="flex-grow-1">
                                     <h6 class="mb-1">
-                                        <a asp-controller="Friends" asp-action="ViewProfile" asp-route-userId="@request.Id">
+                                        <a href="/UserProfile/@request.Id" class="text-decoration-none">
                                             @request.FullName
                                         </a>
                                     </h6>
-                                    <div class="mt-1">
+                                    <div class="mt-2 d-flex">
                                         <form asp-action="CancelFriendRequest" method="post">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@request.RelationId">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Отменить запрос</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-x-circle me-1"></i> Отменить запрос
+                                            </button>
                                         </form>
-                                    </div>
-                                    <div class="mt-3 d-flex justify-content-between">
-                                        <a href="/UserProfile/@request.Id" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-person-fill me-1"></i> Профиль
+                                        <a href="/UserProfile/@request.Id" class="btn btn-sm btn-outline-primary ms-2">
+                                            <i class="bi bi-person-badge"></i> Профиль
                                         </a>
                                     </div>
                                 </div>
