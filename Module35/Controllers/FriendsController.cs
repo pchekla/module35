@@ -36,7 +36,7 @@ public class FriendsController : Controller
             return RedirectToAction("Login", "AccountManager");
         }
 
-        FriendsListViewModel model = null;
+        FriendsListViewModel? model = null;
 
         try
         {

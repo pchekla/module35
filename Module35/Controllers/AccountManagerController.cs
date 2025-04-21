@@ -161,7 +161,7 @@ public class AccountManagerController : Controller
             MiddleName = user.MiddleName,
             Email = user.Email,
             BirthDate = user.BirthDate,
-            Image = user.Image! ?? string.Empty,
+            Image = user.Image!,
             Status = user.Status,
             About = user.About
         };

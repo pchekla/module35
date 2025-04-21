@@ -14,13 +14,13 @@ public class Message
     public DateTime SentDate { get; set; } = DateTime.Now;
 
     [Required]
-    public string SenderId { get; set; }
+    public string SenderId { get; set; } = string.Empty;
     
     [ForeignKey("SenderId")]
     public User? Sender { get; set; }
 
     [Required]
-    public string RecipientId { get; set; }
+    public string RecipientId { get; set; } = string.Empty;
     
     [ForeignKey("RecipientId")]
     public User? Recipient { get; set; }
