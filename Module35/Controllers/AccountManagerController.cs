@@ -62,7 +62,7 @@ public class AccountManagerController : Controller
                     }
                     else
                     {
-                        return RedirectToAction("Main", "Home");
+                        return RedirectToAction("MyPage", "AccountManager");
                     }
                 }
                 else
@@ -84,8 +84,7 @@ public class AccountManagerController : Controller
     }
 
     [Route("Logout")]
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpGet]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();

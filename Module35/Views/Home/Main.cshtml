@@ -14,14 +14,6 @@
                         <div class="col-md-6 animate-on-scroll">
                             <h4>Это главная страница для авторизованных пользователей.</h4>
                             <p>Здесь будет размещаться основной функционал социальной сети.</p>
-                            
-                            <div class="btn-group mt-4">
-                                <a asp-controller="AccountManager" asp-action="MyPage" class="btn btn-primary">Моя страница</a>
-                                <form method="post" asp-controller="AccountManager" asp-action="Logout" class="ml-2">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-danger">Выйти</button>
-                                </form>
-                            </div>
                         </div>
                         <div class="col-md-6 animate-on-scroll">
                             <div class="image-container">

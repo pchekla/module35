@@ -63,6 +63,26 @@
         @@keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Стили для активного пункта меню */
+        .nav-link-active {
+            background-color: rgba(13, 110, 253, 0.9) !important;
+            color: white !important;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
+            border-radius: 4px;
+            padding: 3px 8px;
+        }
+        
+        .navbar-brand.nav-link-active {
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        
+        [data-theme="dark"] .nav-link-active {
+            background-color: rgba(187, 134, 252, 0.9) !important;
+        }
     </style>
     <script>
         // Проверка сохраненной темы в localStorage и предустановка перед загрузкой страницы
@@ -99,11 +119,29 @@
             <div class="container">
                 <div class="row w-100">
                     <div class="col">
-                        <a class="navbar-brand pl-0" asp-area="" asp-controller="Home" asp-action="Index">
+                        @{
+                            var isHomeActive = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && 
+                                             ViewContext.RouteData.Values["action"]?.ToString() == "Index";
+                            var logoClass = isHomeActive ? "navbar-brand pl-0 nav-link-active" : "navbar-brand pl-0";
+                        }
+                        <a class="@logoClass" asp-area="" asp-controller="Home" asp-action="Index">
                             <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>
                         </a>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto d-flex align-items-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="auth-buttons me-3">
+                                @{
+                                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                                    var isMyPageActive = currentController == "AccountManager" && currentAction == "MyPage";
+                                    var myPageClass = isMyPageActive ? "btn-primary nav-link-active" : "btn-outline-primary";
+                                }
+                                <a asp-controller="AccountManager" asp-action="MyPage" class="btn btn-sm @myPageClass me-2">Моя страница</a>
+                                <a asp-controller="AccountManager" asp-action="Logout" class="btn btn-sm btn-outline-danger">Выйти</a>
+                            </div>
+                        }
                         <div class="theme-switch-wrapper">
                             <span class="theme-label light-label">Светлая</span>
                             <label class="theme-switch">
