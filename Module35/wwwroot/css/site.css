@@ -54,6 +54,12 @@
     --error-color: #842029;
     --info-bg: #cff4fc;
     --info-color: #055160;
+
+    /* Добавлено: Фон навбара с прозрачностью */
+    --navbar-bg-overlay: rgba(248, 249, 250, 0.95); 
+
+    /* Новые переменные для контента главной страницы */
+    --bg-color-overlay: rgba(248, 249, 250, 0.9); /* Полупрозрачный светлый */
 }
 
 /* Темная тема */
@@ -102,6 +108,12 @@
     --error-color: #f8d7da;
     --info-bg: #0f363e;
     --info-color: #cff4fc;
+
+    /* Добавлено: Фон навбара с прозрачностью */
+    --navbar-bg-overlay: rgba(30, 30, 30, 0.95);
+
+    /* Новые переменные для контента главной страницы */
+    --bg-color-overlay: rgba(18, 18, 18, 0.9); /* Полупрозрачный темный */
 }
 
 /* Предотвращение FOUC (Flash of Unstyled Content) */
@@ -330,6 +342,7 @@ input:focus, select:focus, textarea:focus {
 
 .main {
     margin-bottom: 15px;
+    padding-top: 1rem; /* Добавлен отступ сверху */
 }
 
 .footer {
@@ -337,7 +350,7 @@ input:focus, select:focus, textarea:focus {
     white-space: nowrap;
     line-height: 40px;
     padding: 10px 0;
-    background-color: var(--footer-bg);
+    background-color: var(--footer-bg, var(--bg-color)); /* Фон футера из переменной или основной */
     border-top: 1px solid var(--border-color);
 }
 
@@ -816,34 +829,61 @@ html, body {
     margin-top: 5px;
 }
 
-/* ----- Исправление фона для главной страницы ----- */
-.home-page-content .welcome-info,
-.home-page-content .card,
-.home-page-content .card-body {
-   background-color: transparent !important; /* Убираем фон */
-   box-shadow: none !important; /* Убираем тень, если она мешает */
-   border: none !important; /* Убираем рамку, если есть */
+/* ----- Новый стиль для фона страницы ----- */
+html {
+    /* Убираем фон с html */
+    background-image: none !important; 
 }
 
-/* Можно также сделать фон инпутов на главной непрозрачным, если нужно */
-/*
-.home-page-content input,
-.home-page-content select,
-.home-page-content textarea {
-    background-color: var(--input-bg) !important; 
-}
-*/
-
-/* ----- Исправление фона для логотипа в навбаре ----- */
-.navbar-brand {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important; /* Убираем внутренние отступы, если они делают его похожим на кнопку */
-    display: inline-block; /* Убедимся, что он ведет себя как инлайн-блок */
+/* Убедимся, что body использует основной фон темы (он будет поверх фона html) */
+body {
+    /* Применяем фон к body */
+    background-image: url('/img/Background.jpg'); /* Исправлен путь к папке */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
 }
 
-/* Стили для текста логотипа остаются, убираем только фон ссылки */
-.navbar-brand .logo-text {
-    /* Можно добавить стили для самого текста, если нужно */
+/* Убедимся, что карточки и другие элементы тоже используют свой фон темы */
+.card {
+    background-color: var(--card-bg);
+}
+
+main {
+    /* main обычно не имеет фона, фон body будет виден */
+    /* background-color: var(--bg-color); */ 
+}
+
+.navbar {
+    /* background-color: var(--navbar-bg, var(--bg-color)); */ /* Старое правило */
+    background-color: var(--navbar-bg-overlay) !important; /* Используем новый фон с прозрачностью */
+    border-bottom: 1px solid var(--border-color); /* Добавляем нижнюю границу */
+    /* box-shadow: 0 1px 3px var(--shadow-color); */ /* Альтернатива: добавить тень */
+    position: sticky; /* Делаем навбар "липким" при прокрутке */
+    top: 0;
+    z-index: 1020; /* Убедимся, что он поверх другого контента */
+}
+
+/* Уберем отступ снизу у навбара, т.к. граница уже есть */
+.navbar.mb-2 {
+    margin-bottom: 0 !important; 
+}
+
+footer {
+     background-color: var(--footer-bg, var(--bg-color)); /* Фон футера из переменной или основной */
+}
+
+/* ----- Стили для контента главной страницы (после логина) ----- */
+.main-page-content-area {
+    background-color: var(--bg-color-overlay); /* Используем переменную полупрозрачного фона */
+    padding: 2rem 1.5rem; /* Добавим отступы для красоты */
+    border-radius: 0.5rem; /* Скруглим углы */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Добавим тень */
+}
+
+/* Уберем прозрачный фон у элементов списка внутри этого блока */
+.main-page-content-area .list-group-item {
+    background-color: transparent !important; 
+    border: none; /* Уберем рамки у списка */
 }
