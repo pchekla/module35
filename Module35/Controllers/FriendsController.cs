@@ -192,7 +192,7 @@ public class FriendsController : Controller
             if (friendRelations.Any())
             {
                 model.Friends = friendRelations
-                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation, currentUser!.Id))
+                    .Select(fr => new FriendViewModel(fr.Friend!, fr.Relation, currentUser!.Id))
                     .ToList();
             }
         }
@@ -392,7 +392,7 @@ public class FriendsController : Controller
             .ToListAsync();
 
         model.Friends = acceptedFriendships
-            .Select(fr => new FriendViewModel(fr.Friend, fr, currentUser.Id))
+            .Select(fr => new FriendViewModel(fr.Friend!, fr, currentUser.Id))
             .ToList();
 
         // Получаем также отношения, где пользователь был получателем запроса
@@ -403,7 +403,7 @@ public class FriendsController : Controller
 
         // Добавляем к списку друзей обоих направлений отношений
         var receivedFriends = receivedFriendships
-            .Select(fr => new FriendViewModel(fr.User, fr, currentUser.Id))
+            .Select(fr => new FriendViewModel(fr.User!, fr, currentUser.Id))
             .ToList();
 
         model.Friends.AddRange(receivedFriends);
@@ -417,18 +417,26 @@ public class FriendsController : Controller
             .ToListAsync();
 
         model.PendingRequests = pendingRequests
-            .Select(fr => new FriendViewModel(fr.User, fr, currentUser.Id))
+            .Select(fr => new FriendViewModel(fr.User!, fr, currentUser.Id))
             .ToList();
 
-        // Получение исходящих запросов в друзья
+        // Получаем исходящие запросы (те, что отправил currentUser)
         var outgoingRequests = await _context.FriendRelations
-            .Include(fr => fr.Friend)
             .Where(fr => fr.UserId == currentUser.Id && !fr.IsAccepted)
+            .Select(fr => fr.Friend!)
+            .Select(fr => new FriendViewModel(fr, null, currentUser.Id))
             .ToListAsync();
 
-        model.OutgoingRequests = outgoingRequests
-            .Select(fr => new FriendViewModel(fr.Friend, fr, currentUser.Id))
-            .ToList();
+        model.OutgoingRequests = outgoingRequests;
+
+        // Получаем входящие запросы (те, что отправлены currentUser)
+        var incomingRequests = await _context.FriendRelations
+            .Where(fr => fr.FriendId == currentUser.Id && !fr.IsAccepted)
+            .Select(fr => fr.User!)
+            .Select(fr => new FriendViewModel(fr, null, currentUser.Id))
+            .ToListAsync();
+
+        model.IncomingRequests = incomingRequests;
 
         return model;
     }

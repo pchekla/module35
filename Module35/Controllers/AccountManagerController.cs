@@ -127,7 +127,7 @@ public class AccountManagerController : Controller
             if (friendRelations.Any())
             {
                 model.Friends = friendRelations
-                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation))
+                    .Select(fr => new FriendViewModel(fr.Friend!, fr.Relation))
                     .ToList();
             }
         }
@@ -161,7 +161,7 @@ public class AccountManagerController : Controller
             MiddleName = user.MiddleName,
             Email = user.Email,
             BirthDate = user.BirthDate,
-            Image = user.Image ?? string.Empty,
+            Image = user.Image! ?? string.Empty,
             Status = user.Status,
             About = user.About
         };

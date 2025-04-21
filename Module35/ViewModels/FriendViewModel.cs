@@ -14,7 +14,7 @@ public class FriendViewModel
     
     public FriendViewModel() {}
     
-    public FriendViewModel(User user, FriendRelation relation = null, string currentUserId = null)
+    public FriendViewModel(User user, FriendRelation? relation = null, string? currentUserId = null)
     {
         if (user == null) return;
         
