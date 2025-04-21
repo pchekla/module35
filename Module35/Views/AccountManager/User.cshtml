@@ -34,7 +34,7 @@
                                 {
                                     <form asp-controller="Friends" asp-action="RemoveFriend" method="post" class="d-inline">
                                         <input type="hidden" name="relationId" value="@Model.RelationId" />
-                                        <button type="submit" class="btn btn-outline-danger">
+                                        <button type="submit" class="btn btn-danger">
                                             <i class="bi bi-person-dash me-1"></i> Удалить из друзей
                                         </button>
                                     </form>
@@ -43,7 +43,7 @@
                                 {
                                     <form asp-controller="Friends" asp-action="CancelFriendRequest" method="post" class="d-inline">
                                         <input type="hidden" name="relationId" value="@Model.RelationId" />
-                                        <button type="submit" class="btn btn-outline-secondary">
+                                        <button type="submit" class="btn btn-danger">
                                             <i class="bi bi-x-lg me-1"></i> Отменить запрос
                                         </button>
                                     </form>
