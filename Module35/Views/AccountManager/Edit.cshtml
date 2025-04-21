@@ -78,9 +78,16 @@
                 
                 <div class="form-group mb-3">
                     <label asp-for="Image"></label>
-                    <input asp-for="Image" class="form-control" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                    <small class="form-text text-muted">Введите URL изображения</small>
+                    <div class="input-group">
+                        <input asp-for="Image" class="form-control" />
+                        <button type="button" id="removeImageBtn" class="btn btn-danger" style="min-width: 140px; height: calc(100% - 2px); margin-top: 1px;">
+                            <i class="bi bi-trash me-1"></i> Удалить фото
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <small class="form-text text-muted">Введите URL изображения или оставьте пустым</small>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
                 </div>
                 
                 <div class="form-group mb-3">
@@ -138,9 +145,27 @@
             updateFullDate();
             
             // Обработчик отправки формы
-            document.querySelector('form').addEventListener('submit', function() {
-                updateFullDate();
-            });
+            const editForm = document.querySelector('form');
+            if (editForm) {
+                editForm.addEventListener('submit', function(e) {
+                    updateFullDate();
+                });
+            }
+            
+            // Обработчик нажатия на кнопку "Удалить фото"
+            const removeImageBtn = document.getElementById('removeImageBtn');
+            const imageInput = document.getElementById('Image');
+            
+            if (removeImageBtn && imageInput) {
+                removeImageBtn.addEventListener('click', function() {
+                    imageInput.value = "";
+                    // Удаляем все ошибки валидации для поля Image
+                    const errorSpan = document.querySelector('[data-valmsg-for="Image"]');
+                    if (errorSpan) {
+                        errorSpan.textContent = '';
+                    }
+                });
+            }
         });
     </script>
 }

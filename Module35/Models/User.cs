@@ -14,7 +14,7 @@ public class User : IdentityUser
     public DateTime BirthDate { get; set; }
     
     // Свойства пользователя, теперь сохраняются в БД
-    public string Image { get; set; } = "https://via.placeholder.com/500";
+    public string Image { get; set; } = "";
     public string Status { get; set; } = "Ура! Я в соцсети!";
     public string About { get; set; } = "Информация обо мне.";
     

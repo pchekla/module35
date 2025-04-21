@@ -17,7 +17,14 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-image-container">
-                    <img src="@Model.User.Image" class="profile-image" alt="Фото профиля">
+                    @if (string.IsNullOrEmpty(Model.User.Image))
+                    {
+                        <img src="/img/logo.png" class="profile-image" alt="Логотип">
+                    }
+                    else
+                    {
+                        <img src="@Model.User.Image" class="profile-image" alt="Фото профиля">
+                    }
                     <div class="mt-3 text-center">
                         <a asp-controller="AccountManager" asp-action="Edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
                     </div>

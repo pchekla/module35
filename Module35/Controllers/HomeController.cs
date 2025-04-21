@@ -38,16 +38,9 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int? statusCode = null)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-    
-    // Метод для обработки ошибок по коду статуса (например, 404)
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(int? statusCode)
-    {
-        if (statusCode == 404 || statusCode == 401)
+        if (statusCode.HasValue && (statusCode == 404 || statusCode == 401))
         {
             _logger.LogWarning($"Ошибка доступа: {statusCode}. Перенаправление на главную страницу.");
             

@@ -28,8 +28,7 @@ public class UserEditViewModel
     public DateTime BirthDate { get; set; }
     
     [Display(Name = "Изображение профиля")]
-    [Url(ErrorMessage = "Введите корректный URL")]
-    public string Image { get; set; } = "https://via.placeholder.com/500";
+    public string Image { get; set; } = "";
     
     [Display(Name = "Статус")]
     public string Status { get; set; } = "Ура! Я в соцсети!";

@@ -5,6 +5,7 @@ using Module35.Models;
 using Module35.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Module35.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace Module35.Controllers;
 
@@ -13,12 +14,14 @@ public class AccountManagerController : Controller
     private IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly ILogger<AccountManagerController> _logger;
 
-    public AccountManagerController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+    public AccountManagerController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ILogger<AccountManagerController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [Route("Login")]
@@ -141,6 +144,20 @@ public class AccountManagerController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(UserEditViewModel model) 
     {
+        // Очищаем все ошибки валидации для поля Image, чтобы обрабатывать его отдельно
+        ModelState.Remove("Image");
+        
+        _logger.LogInformation("Обновление профиля. Image: '{Image}', ModelState валиден: {IsValid}", 
+            model.Image, ModelState.IsValid);
+        
+        // Проверка URL только если не пустой
+        if (!string.IsNullOrWhiteSpace(model.Image) && !Uri.IsWellFormedUriString(model.Image, UriKind.Absolute))
+        {
+            ModelState.AddModelError("Image", "Введите корректный URL");
+            _logger.LogWarning("Некорректный URL изображения: {Image}", model.Image);
+            return View("Edit", model);
+        }
+
         if (ModelState.IsValid) 
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
@@ -148,6 +165,7 @@ public class AccountManagerController : Controller
             if (user == null)
             {
                 TempData["ErrorMessage"] = "Пользователь не найден.";
+                _logger.LogWarning("Пользователь не найден при обновлении профиля. UserId: {UserId}", model.UserId);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -159,7 +177,7 @@ public class AccountManagerController : Controller
             user.LastName = model.LastName;
             user.MiddleName = model.MiddleName;
             user.BirthDate = model.BirthDate;
-            user.Image = model.Image;
+            user.Image = model.Image ?? ""; // Защита от null
             user.Status = model.Status;
             user.About = model.About;
             
@@ -172,16 +190,25 @@ public class AccountManagerController : Controller
                 // Не изменяем UserName и NormalizedUserName
             }
 
+            _logger.LogInformation("Обновление пользователя. UserId: {UserId}, Image: {Image}", user.Id, user.Image);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded) 
             {
+                _logger.LogInformation("Профиль успешно обновлен. UserId: {UserId}", user.Id);
+                
+                // Гарантируем, что TempData будет доступно после редиректа
                 TempData["SuccessMessage"] = "Профиль успешно обновлен!";
+                
+                // Сохраняем TempData перед редиректом
+                TempData.Keep("SuccessMessage");
+                
                 return RedirectToAction("MyPage", "AccountManager");
             } 
             else 
             {
                 foreach (var error in result.Errors)
                 {
+                    _logger.LogError("Ошибка обновления профиля: {Error}", error.Description);
                     ModelState.AddModelError("", error.Description);
                 }
                 return View("Edit", model);
@@ -189,6 +216,8 @@ public class AccountManagerController : Controller
         } 
         else 
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            _logger.LogWarning("Модель невалидна. Ошибки: {Errors}", string.Join(", ", errors));
             ModelState.AddModelError("", "Некорректные данные");
             return View("Edit", model);
         }
