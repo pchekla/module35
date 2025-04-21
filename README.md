@@ -38,7 +38,7 @@
 
 1.  **Клонируйте репозиторий:**
     ```bash
-    git clone <URL вашего репозитория>
+    git clone https://github.com/pchekla/module35.git
     cd module35 
     ```
 2.  **Установите .NET SDK:** Убедитесь, что у вас установлен .NET SDK (версия 6.0 или выше).
