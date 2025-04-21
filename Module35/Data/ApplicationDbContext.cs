@@ -56,18 +56,18 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
         
-        // Настройка отношений между друзьями
+        // Настраиваем отношения между пользователями и запросами в друзья
         builder.Entity<FriendRelation>()
-            .HasOne(f => f.User)
-            .WithMany()
-            .HasForeignKey(f => f.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .HasOne(fr => fr.User)
+            .WithMany(u => u.SentFriendRequests)
+            .HasForeignKey(fr => fr.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
             
         builder.Entity<FriendRelation>()
-            .HasOne(f => f.Friend)
-            .WithMany()
-            .HasForeignKey(f => f.FriendId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .HasOne(fr => fr.Friend)
+            .WithMany(u => u.ReceivedFriendRequests)
+            .HasForeignKey(fr => fr.FriendId)
+            .OnDelete(DeleteBehavior.Restrict);
             
         // Настройка UserDto как сущности без ключа, поскольку она используется только для запросов
         builder.Entity<UserDto>().HasNoKey();

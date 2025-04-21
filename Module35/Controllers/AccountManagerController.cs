@@ -113,6 +113,30 @@ public class AccountManagerController : Controller
             IsOwnProfile = true
         };
         
+        // Загружаем список друзей пользователя
+        try 
+        {
+            // Получаем список принятых отношений дружбы
+            var friendRelations = _userManager.Users.Where(u => u.Id == user.Id)
+                .SelectMany(u => u.SentFriendRequests.Where(fr => fr.IsAccepted)
+                    .Select(fr => new { Friend = fr.Friend, Relation = fr })
+                    .Union(u.ReceivedFriendRequests.Where(fr => fr.IsAccepted)
+                        .Select(fr => new { Friend = fr.User, Relation = fr })))
+                .ToList();
+                
+            if (friendRelations.Any())
+            {
+                model.Friends = friendRelations
+                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation))
+                    .ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при загрузке списка друзей: {Message}", ex.Message);
+            // Даже в случае ошибки мы продолжаем показывать профиль пользователя
+        }
+        
         return View("User", model);
     }
 

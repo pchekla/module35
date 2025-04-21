@@ -1,5 +1,6 @@
 using Module35.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Module35.ViewModels;
 
@@ -12,6 +13,9 @@ public class UserViewModel
     public bool IsPendingRequest { get; set; } = false;
     public bool FriendRequestSentByMe { get; set; } = false;
     public int? RelationId { get; set; }
+    
+    // Список друзей пользователя
+    public List<FriendViewModel> Friends { get; set; } = new List<FriendViewModel>();
     
     // Флаг, определяющий, что это профиль самого пользователя
     public bool IsOwnProfile { get; set; } = false;

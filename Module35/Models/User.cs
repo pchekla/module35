@@ -18,6 +18,10 @@ public class User : IdentityUser
     public string Status { get; set; } = "Ура! Я в соцсети!";
     public string About { get; set; } = "Информация обо мне.";
     
+    // Навигационные свойства для отношений дружбы
+    public virtual ICollection<FriendRelation> SentFriendRequests { get; set; } = new List<FriendRelation>();
+    public virtual ICollection<FriendRelation> ReceivedFriendRequests { get; set; } = new List<FriendRelation>();
+    
     public string GetFullName() 
     {
         // Проверки на null для всех компонентов имени
