@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Module35.Data;
 using Module35.Models;
 using System.Reflection;
+using System;
 
 namespace Module35;
 
@@ -36,6 +37,15 @@ public class Startup
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        // Добавляем сессии
+        services.AddDistributedMemoryCache();
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
+
         // Добавляем AutoMapper
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -63,6 +73,9 @@ public class Startup
 
         app.UseStaticFiles();
         app.UseRouting();
+
+        // Добавляем сессии перед авторизацией
+        app.UseSession();
 
         // Добавляем Authentication и Authorization
         app.UseAuthentication();

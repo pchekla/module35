@@ -1,0 +1,125 @@
+@model Module35.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = Model.User.GetFullName();
+}
+
+<div class="container user-page fade-in">
+    <div class="card profile-card">
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h2 class="profile-name">@Model.User.GetFullName()</h2>
+            </div>
+        </div>
+        
+        <hr class="profile-divider">
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-image-container">
+                    <img src="@Model.User.Image" class="profile-image" alt="Фото профиля">
+                    <div class="mt-3 text-center">
+                        <a asp-controller="AccountManager" asp-action="Edit" class="btn btn-primary">Редактировать</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="profile-info">
+                    <div class="info-item">
+                        <span class="info-label">Статус:</span>
+                        <span class="info-value">@Model.User.Status</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Дата рождения:</span>
+                        <span class="info-value">
+                            @if(Model.User.BirthDate.Year > 1900) {
+                                @Model.User.BirthDate.ToString("d MMMM yyyy г.")
+                            } else {
+                                <text>Не указана</text>
+                            }
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">О себе:</span>
+                        <span class="info-value">@Model.User.About</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">@Model.User.Email</span>
+                    </div>
+                </div>
+                
+                <hr class="profile-divider">
+                
+                <div class="friends-section">
+                    <h4>Список друзей</h4>
+                    <!-- Здесь в будущем будет размещен список друзей -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-card {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+    
+    .profile-name {
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+    
+    .profile-image-container {
+        text-align: center;
+    }
+    
+    .profile-image {
+        width: 100%;
+        max-width: 350px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .profile-divider {
+        margin: 15px 0;
+        opacity: 0.2;
+    }
+    
+    .profile-info {
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        margin-bottom: 10px;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #666;
+        margin-right: 10px;
+    }
+    
+    .info-value {
+        color: #333;
+    }
+    
+    [data-theme="dark"] .info-label {
+        color: #aaa;
+    }
+    
+    [data-theme="dark"] .info-value {
+        color: #ddd;
+    }
+    
+    .friends-section {
+        margin-top: 20px;
+    }
+</style> 

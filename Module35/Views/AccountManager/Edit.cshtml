@@ -1,0 +1,79 @@
+@model Module35.ViewModels.UserEditViewModel
+
+@{
+    ViewData["Title"] = "Редактирование пользователя";
+}
+
+<div class="container fade-in">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-controller="AccountManager" asp-action="Update">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <!-- Скрытое поле для ID пользователя -->
+                <input asp-for="UserId" type="hidden" />
+                
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="MiddleName"></label>
+                    <input asp-for="MiddleName" class="form-control" placeholder="Введите отчество" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="BirthDate"></label>
+                    <input asp-for="BirthDate" class="form-control" type="date" />
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Image"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                    <small class="form-text text-muted">Введите URL изображения (например, https://via.placeholder.com/500)</small>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Status"></label>
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="About"></label>
+                    <textarea asp-for="About" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="About" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mt-4 text-center">
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                    <a asp-controller="AccountManager" asp-action="MyPage" class="btn btn-outline-secondary ml-2">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+} 
