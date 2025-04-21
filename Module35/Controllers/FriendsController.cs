@@ -207,6 +207,32 @@ public class FriendsController : Controller
             IsOwnProfile = userToView.Id == currentUser.Id
         };
 
+        // Загружаем список друзей просматриваемого пользователя
+        try 
+        {
+            // Получаем список принятых отношений дружбы для просматриваемого пользователя
+            var friendRelations = _context.Users
+                .Where(u => u.Id == userToView.Id)
+                .SelectMany(u => u.SentFriendRequests.Where(fr => fr.IsAccepted)
+                    .Select(fr => new { Friend = fr.Friend, Relation = fr })
+                    .Union(u.ReceivedFriendRequests.Where(fr => fr.IsAccepted)
+                        .Select(fr => new { Friend = fr.User, Relation = fr })))
+                .ToList();
+                
+            if (friendRelations.Any())
+            {
+                model.Friends = friendRelations
+                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation))
+                    .ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при загрузке списка друзей для пользователя {UserId}: {Message}", 
+                userId, ex.Message);
+            // Даже в случае ошибки мы продолжаем показывать профиль пользователя
+        }
+
         return View("../AccountManager/User", model);
     }
 
