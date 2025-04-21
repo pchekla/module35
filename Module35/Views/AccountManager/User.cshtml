@@ -6,15 +6,7 @@
 
 <div class="container user-page fade-in">
     <div class="card profile-card">
-        <div class="row">
-            <div class="col-md-12 text-center mb-4">
-                <h2 class="profile-name">@Model.User.GetFullName()</h2>
-            </div>
-        </div>
-        
-        <hr class="profile-divider">
-        
-        <div class="row">
+        <div class="row align-items-start">
             <div class="col-md-4">
                 <div class="profile-image-container">
                     @if (string.IsNullOrEmpty(Model.User.Image))
@@ -30,8 +22,9 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col-md-8">
+                <h2 class="profile-name mb-3">@Model.User.GetFullName()</h2>
+                
                 <div class="profile-info">
                     <div class="info-item">
                         <span class="info-label">Статус:</span>
@@ -59,9 +52,13 @@
                         <span class="info-value">@Model.User.Email</span>
                     </div>
                 </div>
-                
-                <hr class="profile-divider">
-                
+            </div>
+        </div>
+        
+        <hr class="profile-divider">
+        
+        <div class="row">
+            <div class="col-md-12">
                 <div class="friends-section">
                     <h4>Список друзей</h4>
                     <!-- Здесь в будущем будет размещен список друзей -->
@@ -82,21 +79,27 @@
     .profile-name {
         font-weight: 600;
         font-size: 1.8rem;
+        margin-bottom: 10px;
+        margin-top: 0;
     }
     
     .profile-image-container {
         text-align: center;
+        padding-top: 0;
     }
     
     .profile-image {
         width: 100%;
-        max-width: 350px;
+        max-width: 250px;
+        height: auto;
         border-radius: 8px;
         margin-bottom: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
     }
     
     .profile-divider {
-        margin: 15px 0;
+        margin: 25px 0 15px 0;
         opacity: 0.2;
     }
     
@@ -159,5 +162,17 @@
     
     .friends-section {
         margin-top: 20px;
+    }
+    
+    /* Стили для мобильных устройств */
+    @@media (max-width: 767px) {
+        .profile-name {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-image-container {
+            margin-bottom: 20px;
+        }
     }
 </style> 
