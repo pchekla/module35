@@ -144,11 +144,13 @@ public class AccountManagerController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(UserEditViewModel model) 
     {
-        // Очищаем все ошибки валидации для поля Image, чтобы обрабатывать его отдельно
+        // Очищаем все ошибки валидации для необязательных полей
         ModelState.Remove("Image");
+        ModelState.Remove("Status");
+        ModelState.Remove("About");
         
-        _logger.LogInformation("Обновление профиля. Image: '{Image}', ModelState валиден: {IsValid}", 
-            model.Image, ModelState.IsValid);
+        _logger.LogInformation("Обновление профиля. Image: '{Image}', Status: '{Status}', About: '{About}', ModelState валиден: {IsValid}", 
+            model.Image, model.Status, model.About, ModelState.IsValid);
         
         // Проверка URL только если не пустой
         if (!string.IsNullOrWhiteSpace(model.Image) && !Uri.IsWellFormedUriString(model.Image, UriKind.Absolute))
@@ -178,8 +180,8 @@ public class AccountManagerController : Controller
             user.MiddleName = model.MiddleName;
             user.BirthDate = model.BirthDate;
             user.Image = model.Image ?? ""; // Защита от null
-            user.Status = model.Status;
-            user.About = model.About;
+            user.Status = string.IsNullOrWhiteSpace(model.Status) ? "" : model.Status;
+            user.About = string.IsNullOrWhiteSpace(model.About) ? "" : model.About;
             
             // Если email изменился, обновляем только Email и NormalizedEmail
             // UserName остается неизменным

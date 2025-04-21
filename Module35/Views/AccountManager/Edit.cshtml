@@ -93,13 +93,19 @@
                 <div class="form-group mb-3">
                     <label asp-for="Status"></label>
                     <input asp-for="Status" class="form-control" />
-                    <span asp-validation-for="Status" class="text-danger"></span>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <small class="form-text text-muted">Введите статус или оставьте пустым</small>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
                 </div>
                 
                 <div class="form-group mb-3">
                     <label asp-for="About"></label>
                     <textarea asp-for="About" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="About" class="text-danger"></span>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <small class="form-text text-muted">Введите информацию о себе или оставьте пустым</small>
+                        <span asp-validation-for="About" class="text-danger"></span>
+                    </div>
                 </div>
                 
                 <div class="form-group mt-4 text-center">
@@ -149,6 +155,18 @@
             if (editForm) {
                 editForm.addEventListener('submit', function(e) {
                     updateFullDate();
+                    
+                    // Очищаем ошибки валидации для необязательных полей
+                    const statusErrorSpan = document.querySelector('[data-valmsg-for="Status"]');
+                    const aboutErrorSpan = document.querySelector('[data-valmsg-for="About"]');
+                    
+                    if (statusErrorSpan) {
+                        statusErrorSpan.textContent = '';
+                    }
+                    
+                    if (aboutErrorSpan) {
+                        aboutErrorSpan.textContent = '';
+                    }
                 });
             }
             
