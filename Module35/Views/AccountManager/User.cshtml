@@ -32,17 +32,18 @@
                             <div class="mb-3">
                                 @if (Model.IsFriend)
                                 {
-                                    <form asp-controller="Friends" asp-action="RemoveFriend" method="post">
+                                    <form asp-controller="Friends" asp-action="RemoveFriend" method="post" class="text-center">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="relationId" value="@Model.RelationId">
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-person-dash-fill"></i> Удалить из друзей
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="bi bi-person-dash-fill me-1"></i> Удалить из друзей
                                         </button>
                                     </form>
                                 }
                                 else if (Model.IsPendingRequest && Model.FriendRequestSentByMe)
                                 {
-                                    <form asp-controller="Friends" asp-action="CancelFriendRequest" method="post" class="d-inline">
+                                    <form asp-controller="Friends" asp-action="CancelFriendRequest" method="post" class="text-center">
+                                        @Html.AntiForgeryToken()
                                         <input type="hidden" name="relationId" value="@Model.RelationId" />
                                         <button type="submit" class="btn btn-danger">
                                             <i class="bi bi-x-lg me-1"></i> Отменить запрос
@@ -51,14 +52,16 @@
                                 }
                                 else if (Model.IsPendingRequest && !Model.FriendRequestSentByMe)
                                 {
-                                    <div class="d-flex gap-2">
-                                        <form asp-controller="Friends" asp-action="AcceptFriendRequest" method="post" class="d-inline">
+                                    <div class="friend-request-buttons">
+                                        <form asp-controller="Friends" asp-action="AcceptFriendRequest" method="post" class="d-inline me-2">
+                                            @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@Model.RelationId" />
                                             <button type="submit" class="btn btn-success">
                                                 <i class="bi bi-check-lg me-1"></i> Принять
                                             </button>
                                         </form>
                                         <form asp-controller="Friends" asp-action="DeclineFriendRequest" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
                                             <input type="hidden" name="relationId" value="@Model.RelationId" />
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="bi bi-x-lg me-1"></i> Отклонить
@@ -68,7 +71,8 @@
                                 }
                                 else
                                 {
-                                    <form asp-controller="Friends" asp-action="SendFriendRequest" method="post">
+                                    <form asp-controller="Friends" asp-action="SendFriendRequest" method="post" class="text-center">
+                                        @Html.AntiForgeryToken()
                                         <input type="hidden" name="userId" value="@Model.User.Id" />
                                         <button type="submit" class="btn btn-primary">
                                             <i class="bi bi-person-plus me-1"></i> Добавить в друзья
@@ -145,6 +149,19 @@
                                                         <p class="text-muted small mb-0">
                                                             <i class="bi bi-calendar-date"></i> @friend.BirthDate.Value.ToShortDateString()
                                                         </p>
+                                                    }
+                                                    
+                                                    @if (Model.IsOwnProfile)
+                                                    {
+                                                        <div class="mt-2">
+                                                            <form asp-controller="Friends" asp-action="RemoveFriend" method="post" class="d-inline">
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="hidden" name="relationId" value="@friend.RelationId">
+                                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                                    <i class="bi bi-person-dash-fill me-1"></i> Удалить из друзей
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     }
                                                 </div>
                                             </div>
@@ -268,6 +285,17 @@
     
     .friends-section {
         margin-top: 20px;
+    }
+    
+    .friend-request-buttons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .friend-request-buttons .btn {
+        min-width: 120px;
     }
     
     /* Стили для мобильных устройств */
