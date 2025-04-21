@@ -36,57 +36,11 @@ public class FriendsController : Controller
             return RedirectToAction("Login", "AccountManager");
         }
 
-        var model = new FriendsListViewModel
-        {
-            SearchQuery = query
-        };
+        FriendsListViewModel model = null;
 
         try
         {
-            // Получение принятых друзей
-            var acceptedFriendships = await _context.FriendRelations
-                .Include(fr => fr.Friend)
-                .Where(fr => fr.UserId == currentUser.Id && fr.IsAccepted)
-                .ToListAsync();
-
-            model.Friends = acceptedFriendships
-                .Select(fr => new FriendViewModel(fr.Friend, fr))
-                .ToList();
-
-            // Получаем также отношения, где пользователь был получателем запроса
-            var receivedFriendships = await _context.FriendRelations
-                .Include(fr => fr.User)
-                .Where(fr => fr.FriendId == currentUser.Id && fr.IsAccepted)
-                .ToListAsync();
-
-            // Добавляем к списку друзей обоих направлений отношений
-            var receivedFriends = receivedFriendships
-                .Select(fr => new FriendViewModel(fr.User, fr))
-                .ToList();
-
-            model.Friends.AddRange(receivedFriends);
-
-            _logger.LogInformation($"Загружено {model.Friends.Count} друзей: {acceptedFriendships.Count} отправленных и {receivedFriendships.Count} полученных");
-
-            // Получение входящих запросов в друзья
-            var pendingRequests = await _context.FriendRelations
-                .Include(fr => fr.User)
-                .Where(fr => fr.FriendId == currentUser.Id && !fr.IsAccepted)
-                .ToListAsync();
-
-            model.PendingRequests = pendingRequests
-                .Select(fr => new FriendViewModel(fr.User, fr))
-                .ToList();
-
-            // Получение исходящих запросов в друзья
-            var outgoingRequests = await _context.FriendRelations
-                .Include(fr => fr.Friend)
-                .Where(fr => fr.UserId == currentUser.Id && !fr.IsAccepted)
-                .ToListAsync();
-
-            model.OutgoingRequests = outgoingRequests
-                .Select(fr => new FriendViewModel(fr.Friend, fr))
-                .ToList();
+            model = await LoadFriendsListModelAsync(currentUser, query);
 
             // Поиск пользователей, если есть запрос
             if (!string.IsNullOrWhiteSpace(query))
@@ -157,7 +111,7 @@ public class FriendsController : Controller
                                 (r.UserId == currentUser.Id && r.FriendId == user.Id) || 
                                 (r.FriendId == currentUser.Id && r.UserId == user.Id));
                             
-                            return new FriendViewModel(user, relation);
+                            return new FriendViewModel(user, relation, currentUser.Id);
                         })
                         .ToList();
                 }
@@ -173,6 +127,7 @@ public class FriendsController : Controller
         {
             _logger.LogError(ex, "Ошибка при загрузке данных о друзьях: {Message}", ex.Message);
             TempData["ErrorMessage"] = "Произошла ошибка при загрузке данных: " + ex.Message;
+            model = new FriendsListViewModel();
         }
 
         return View(model);
@@ -237,7 +192,7 @@ public class FriendsController : Controller
             if (friendRelations.Any())
             {
                 model.Friends = friendRelations
-                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation))
+                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation, currentUser.Id))
                     .ToList();
             }
         }
@@ -421,5 +376,60 @@ public class FriendsController : Controller
 
         TempData["SuccessMessage"] = "Друг удален из списка друзей.";
         return RedirectToAction("Index");
+    }
+
+    private async Task<FriendsListViewModel> LoadFriendsListModelAsync(User currentUser, string query)
+    {
+        var model = new FriendsListViewModel
+        {
+            SearchQuery = query
+        };
+
+        // Получение принятых друзей
+        var acceptedFriendships = await _context.FriendRelations
+            .Include(fr => fr.Friend)
+            .Where(fr => fr.UserId == currentUser.Id && fr.IsAccepted)
+            .ToListAsync();
+
+        model.Friends = acceptedFriendships
+            .Select(fr => new FriendViewModel(fr.Friend, fr, currentUser.Id))
+            .ToList();
+
+        // Получаем также отношения, где пользователь был получателем запроса
+        var receivedFriendships = await _context.FriendRelations
+            .Include(fr => fr.User)
+            .Where(fr => fr.FriendId == currentUser.Id && fr.IsAccepted)
+            .ToListAsync();
+
+        // Добавляем к списку друзей обоих направлений отношений
+        var receivedFriends = receivedFriendships
+            .Select(fr => new FriendViewModel(fr.User, fr, currentUser.Id))
+            .ToList();
+
+        model.Friends.AddRange(receivedFriends);
+
+        _logger.LogInformation($"Загружено {model.Friends.Count} друзей: {acceptedFriendships.Count} отправленных и {receivedFriendships.Count} полученных");
+
+        // Получение входящих запросов в друзья
+        var pendingRequests = await _context.FriendRelations
+            .Include(fr => fr.User)
+            .Where(fr => fr.FriendId == currentUser.Id && !fr.IsAccepted)
+            .ToListAsync();
+
+        model.PendingRequests = pendingRequests
+            .Select(fr => new FriendViewModel(fr.User, fr, currentUser.Id))
+            .ToList();
+
+        // Получение исходящих запросов в друзья
+        var outgoingRequests = await _context.FriendRelations
+            .Include(fr => fr.Friend)
+            .Where(fr => fr.UserId == currentUser.Id && !fr.IsAccepted)
+            .ToListAsync();
+
+        model.OutgoingRequests = outgoingRequests
+            .Select(fr => new FriendViewModel(fr.Friend, fr, currentUser.Id))
+            .ToList();
+
+        return model;
     }
 } 
