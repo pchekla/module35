@@ -165,7 +165,7 @@
     </header>
     <div class="container flex-grow-1">
         <main role="main">
-            @await Html.PartialAsync("_Notification")
+            @* @await Html.PartialAsync("_Notification") *@ @* Закомментировано для диагностики *@
             @RenderBody()
         </main>
     </div>
@@ -224,6 +224,28 @@
             });
         </script>
     }
+    @* Скрипт для отображения TempData сообщений через Toastr *@
+    @using System.Text.Encodings.Web
+    <script>
+        $(document).ready(function() { // Обертка нужна, т.к. вызываем после загрузки документа
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>toastr.success("@JavaScriptEncoder.Default.Encode(TempData["SuccessMessage"].ToString() ?? string.Empty)", "Успех");</text>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>toastr.error("@JavaScriptEncoder.Default.Encode(TempData["ErrorMessage"].ToString() ?? string.Empty)", "Ошибка");</text>
+            }
+            @if (TempData["InfoMessage"] != null)
+            {
+                <text>toastr.info("@JavaScriptEncoder.Default.Encode(TempData["InfoMessage"].ToString() ?? string.Empty)", "Информация");</text>
+            }
+            @if (TempData["WarningMessage"] != null)
+            {
+                 <text>toastr.warning("@JavaScriptEncoder.Default.Encode(TempData["WarningMessage"].ToString() ?? string.Empty)", "Предупреждение");</text>
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

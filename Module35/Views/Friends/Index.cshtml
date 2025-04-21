@@ -254,22 +254,4 @@
             }
         </div>
     </div>
-</div>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            toastr.success('@TempData["SuccessMessage"]');
-        });
-    </script>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            toastr.error('@TempData["ErrorMessage"]');
-        });
-    </script>
-} 
+</div> 
