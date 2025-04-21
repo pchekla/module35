@@ -5,8 +5,12 @@
     foreach (var message in Model.Messages)
     {
         <div class="message @(message.IsFromCurrentUser ? "message-sent" : "message-received")">
-            <div class="message-content">@message.Text</div>
-            <div class="message-time">@message.SentDate.ToString("HH:mm, dd MMM")</div>
+            <div class="message-bubble">
+                <div class="message-content">@message.Text</div>
+                <div class="message-time">
+                    @message.SentDate.ToString("HH:mm, dd MMM")
+                </div>
+            </div>
         </div>
     }
 }

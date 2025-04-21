@@ -42,9 +42,12 @@ $(document).ready(function () {
     function setupSignalREventHandlers() {
         // Получение нового сообщения
         connection.on("ReceiveMessage", (senderId, senderName, senderImage, messageText, sentDate) => {
-            console.log("Message received: ", senderName, messageText);
+            console.log("SignalR: ReceiveMessage triggered", { senderId, senderName, messageText, sentDate });
             const isFromCurrentUser = (senderId === currentUserId);
-            appendMessage(senderName, senderImage, messageText, new Date(sentDate), isFromCurrentUser);
+            
+            // Вызываем appendMessage с нужными параметрами
+            appendMessage(messageText, new Date(sentDate), senderName, isFromCurrentUser);
+            
             scrollToBottom();
             
             // Проигрываем звук, только если сообщение не от текущего пользователя
@@ -74,29 +77,58 @@ $(document).ready(function () {
         });
     }
 
-    // Функция добавления сообщения в DOM
-    function appendMessage(senderName, senderImage, text, time, isFromCurrentUser) {
+    // Добавляет новое сообщение в DOM
+    function appendMessage(messageText, sentDate, senderName, isFromCurrentUser) {
+        console.log("appendMessage called", { messageText, sentDate, senderName, isFromCurrentUser });
         const messageClass = isFromCurrentUser ? 'message-sent' : 'message-received';
-        const timeClass = isFromCurrentUser ? 'text-white-50' : 'text-muted';
-        const bubbleClass = isFromCurrentUser ? 'bg-primary text-white' : 'bg-light';
         const textAlign = isFromCurrentUser ? 'text-end' : '';
         
-        const formattedTime = time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ', ' + 
-                              time.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        const formattedTime = sentDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ', ' + 
+                              sentDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
 
-        const messageHtml = `
-            <div class="message ${messageClass} mb-3 ${textAlign}">
-                <div class="d-inline-block message-bubble ${bubbleClass}">
-                    <!-- Можно добавить имя и аватар отправителя для полученных сообщений -->
-                    ${!isFromCurrentUser ? `<div class="message-sender small mb-1"><strong>${senderName}</strong></div>` : ''}
-                    <div class="message-content">${escapeHtml(text)}</div>
-                    <div class="message-time ${timeClass}">${formattedTime}</div>
-                </div>
-            </div>
-        `;
-        $('#messagesContainer').append(messageHtml);
+        const escapedText = escapeHtml(messageText);
+
+        // Создаем элемент сообщения и добавляем его на страницу с уникальным id
+        var domMessageId = 'msg-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        var messageElement = $(
+            '<div class="message ' + messageClass + '" id="' + domMessageId + '">' +
+                '<div class="message-bubble">' +
+                    '<div class="message-content">' + escapedText.replace(/\n/g, '<br>') + '</div>' +
+                    '<div class="message-time small">' + formattedTime + '</div>' +
+                '</div>' +
+            '</div>'
+        );
+        
+        try {
+             $("#messagesContainer").append(messageElement);
+             console.log("Message element appended to #messagesContainer");
+             // Анимация появления нового сообщения
+             messageElement.hide().fadeIn(300);
+        } catch (e) {
+             console.error("Error appending message to DOM:", e);
+        }
+        
         // Обновляем счетчик сообщений
         updateMessageCount();
+        
+        // Прокручиваем чат вниз для отображения нового сообщения
+        // scrollToBottom(); // Эта функция вызывается в ReceiveMessage
+        
+        // Снимаем выделение текста
+        clearSelection();
+        
+        // Применяем защиту от выделения к новому сообщению
+        disableTextSelection();
+        
+        // Дополнительная защита - повторный вызов через таймаут
+        setTimeout(function() {
+            clearSelection();
+            disableTextSelection();
+            $('<div tabindex="-1">').focus().remove();
+        }, 300);
+        
+        console.log("appendMessage finished for:", messageText);
+        return messageElement;
     }
     
     // Функция обновления счетчика сообщений

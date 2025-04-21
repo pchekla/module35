@@ -1,3 +1,5 @@
+@using System.Text.Encodings.Web
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="notification success-notification">
@@ -38,29 +40,21 @@
 }
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const notifications = document.querySelectorAll('.notification');
-        
-        notifications.forEach(function(notification) {
-            // Автоматическое скрытие через 5 секунд
-            setTimeout(function() {
-                hideNotification(notification);
-            }, 5000);
-            
-            // Обработчик кнопки закрытия
-            const closeButton = notification.querySelector('.close-notification');
-            if (closeButton) {
-                closeButton.addEventListener('click', function() {
-                    hideNotification(notification);
-                });
-            }
-        });
-        
-        function hideNotification(notification) {
-            notification.classList.add('notification-hiding');
-            setTimeout(function() {
-                notification.remove();
-            }, 300);
-        }
-    });
+    // Вызываем toastr напрямую, предполагая, что он уже инициализирован в _Layout.cshtml
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <text>toastr.success("@JavaScriptEncoder.Default.Encode(TempData["SuccessMessage"].ToString() ?? string.Empty)", "Успех");</text>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <text>toastr.error("@JavaScriptEncoder.Default.Encode(TempData["ErrorMessage"].ToString() ?? string.Empty)", "Ошибка");</text>
+    }
+    @if (TempData["InfoMessage"] != null)
+    {
+        <text>toastr.info("@JavaScriptEncoder.Default.Encode(TempData["InfoMessage"].ToString() ?? string.Empty)", "Информация");</text>
+    }
+    @if (TempData["WarningMessage"] != null)
+    {
+         <text>toastr.warning("@JavaScriptEncoder.Default.Encode(TempData["WarningMessage"].ToString() ?? string.Empty)", "Предупреждение");</text>
+    }
 </script> 
