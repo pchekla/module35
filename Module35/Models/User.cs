@@ -20,13 +20,18 @@ public class User : IdentityUser
     
     public string GetFullName() 
     {
-        string fullName = FirstName;
+        // Проверки на null для всех компонентов имени
+        string firstName = FirstName ?? string.Empty;
+        string middleName = MiddleName ?? string.Empty;
+        string lastName = LastName ?? string.Empty;
         
-        if (!string.IsNullOrWhiteSpace(MiddleName))
-            fullName += " " + MiddleName;
+        string fullName = firstName;
+        
+        if (!string.IsNullOrWhiteSpace(middleName))
+            fullName += " " + middleName;
             
-        if (!string.IsNullOrWhiteSpace(LastName))
-            fullName += " " + LastName;
+        if (!string.IsNullOrWhiteSpace(lastName))
+            fullName += " " + lastName;
             
         return string.IsNullOrWhiteSpace(fullName) ? "Пользователь" : fullName;
     }

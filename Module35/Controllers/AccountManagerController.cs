@@ -107,7 +107,13 @@ public class AccountManagerController : Controller
             return RedirectToAction("Index", "Home");
         }
         
-        return View("User", new UserViewModel(user));
+        var model = new UserViewModel(user)
+        {
+            // Устанавливаем флаг, что это собственный профиль пользователя
+            IsOwnProfile = true
+        };
+        
+        return View("User", model);
     }
 
     [Route("Edit")]

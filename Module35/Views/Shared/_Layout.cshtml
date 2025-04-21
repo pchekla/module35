@@ -136,9 +136,12 @@
                                     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
                                     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
                                     var isMyPageActive = currentController == "AccountManager" && currentAction == "MyPage";
-                                    var myPageClass = isMyPageActive ? "btn-primary nav-link-active" : "btn-outline-primary";
+                                    var isFriendsActive = currentController == "Friends" && currentAction == "Index";
                                 }
-                                <a asp-controller="AccountManager" asp-action="MyPage" class="btn btn-sm @myPageClass me-2">Моя страница</a>
+                                <a asp-controller="AccountManager" asp-action="MyPage" class="btn btn-sm @(isMyPageActive ? "btn-primary nav-link-active" : "btn-outline-primary") me-2">Моя страница</a>
+                                <a asp-controller="Friends" asp-action="Index" class="btn btn-sm @(isFriendsActive ? "btn-primary nav-link-active" : "btn-outline-primary") me-2">
+                                    <i class="bi bi-people-fill me-1"></i>Мои друзья
+                                </a>
                                 <a asp-controller="AccountManager" asp-action="Logout" class="btn btn-sm btn-outline-danger">Выйти</a>
                             </div>
                         }

@@ -18,7 +18,64 @@
                         <img src="@Model.User.Image" class="profile-image" alt="Фото профиля">
                     }
                     <div class="mt-3 text-center">
-                        <a asp-controller="AccountManager" asp-action="Edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
+                        @if (Model.IsOwnProfile)
+                        {
+                            <div class="profile-buttons">
+                                <a asp-controller="AccountManager" asp-action="Edit" class="btn btn-primary edit-profile-btn w-100 mb-2">Редактировать</a>
+                                <a asp-controller="Friends" asp-action="Index" class="btn btn-primary edit-profile-btn w-100">
+                                    <i class="bi bi-search me-1"></i> Поиск друзей
+                                </a>
+                            </div>
+                        }
+                        else 
+                        {
+                            <div class="mb-3">
+                                @if (Model.IsFriend)
+                                {
+                                    <form asp-controller="Friends" asp-action="RemoveFriend" method="post" class="d-inline">
+                                        <input type="hidden" name="relationId" value="@Model.RelationId" />
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="bi bi-person-dash me-1"></i> Удалить из друзей
+                                        </button>
+                                    </form>
+                                }
+                                else if (Model.IsPendingRequest && Model.FriendRequestSentByMe)
+                                {
+                                    <form asp-controller="Friends" asp-action="CancelFriendRequest" method="post" class="d-inline">
+                                        <input type="hidden" name="relationId" value="@Model.RelationId" />
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            <i class="bi bi-x-lg me-1"></i> Отменить запрос
+                                        </button>
+                                    </form>
+                                }
+                                else if (Model.IsPendingRequest && !Model.FriendRequestSentByMe)
+                                {
+                                    <div class="d-flex gap-2">
+                                        <form asp-controller="Friends" asp-action="AcceptFriendRequest" method="post" class="d-inline">
+                                            <input type="hidden" name="relationId" value="@Model.RelationId" />
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="bi bi-check-lg me-1"></i> Принять
+                                            </button>
+                                        </form>
+                                        <form asp-controller="Friends" asp-action="DeclineFriendRequest" method="post" class="d-inline">
+                                            <input type="hidden" name="relationId" value="@Model.RelationId" />
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                <i class="bi bi-x-lg me-1"></i> Отклонить
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Friends" asp-action="SendFriendRequest" method="post">
+                                        <input type="hidden" name="userId" value="@Model.User.Id" />
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-person-plus me-1"></i> Добавить в друзья
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -121,6 +178,12 @@
         color: #333;
     }
     
+    .profile-buttons {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
     .edit-profile-btn {
         font-weight: 600;
         padding: 8px 20px;
@@ -130,6 +193,8 @@
         border-color: #0d6efd;
         transition: all 0.3s ease;
         color: white !important;
+        display: inline-block;
+        text-align: center;
     }
     
     .edit-profile-btn:hover {
