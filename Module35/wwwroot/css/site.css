@@ -815,3 +815,35 @@ html, body {
 .birth-date-row .row {
     margin-top: 5px;
 }
+
+/* ----- Исправление фона для главной страницы ----- */
+.home-page-content .welcome-info,
+.home-page-content .card,
+.home-page-content .card-body {
+   background-color: transparent !important; /* Убираем фон */
+   box-shadow: none !important; /* Убираем тень, если она мешает */
+   border: none !important; /* Убираем рамку, если есть */
+}
+
+/* Можно также сделать фон инпутов на главной непрозрачным, если нужно */
+/*
+.home-page-content input,
+.home-page-content select,
+.home-page-content textarea {
+    background-color: var(--input-bg) !important; 
+}
+*/
+
+/* ----- Исправление фона для логотипа в навбаре ----- */
+.navbar-brand {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important; /* Убираем внутренние отступы, если они делают его похожим на кнопку */
+    display: inline-block; /* Убедимся, что он ведет себя как инлайн-блок */
+}
+
+/* Стили для текста логотипа остаются, убираем только фон ссылки */
+.navbar-brand .logo-text {
+    /* Можно добавить стили для самого текста, если нужно */
+}

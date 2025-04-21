@@ -123,7 +123,7 @@
                         @{
                             var isHomeActive = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && 
                                              ViewContext.RouteData.Values["action"]?.ToString() == "Index";
-                            var logoClass = isHomeActive ? "navbar-brand pl-0 nav-link-active" : "navbar-brand pl-0";
+                            var logoClass = "navbar-brand pl-0";
                         }
                         <a class="@logoClass" asp-area="" asp-controller="Home" asp-action="Index">
                             <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>
