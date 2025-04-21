@@ -794,3 +794,24 @@ html, body {
 .flex-grow-1 {
     flex-grow: 1;
 }
+
+/* Стили для полей даты рождения */
+.birth-date-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.compact-date {
+    margin-bottom: 16px;
+}
+
+.birth-date-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.birth-date-row .row {
+    margin-top: 5px;
+}

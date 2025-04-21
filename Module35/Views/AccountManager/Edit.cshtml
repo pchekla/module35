@@ -34,8 +34,39 @@
                 </div>
                 
                 <div class="form-group mb-3">
-                    <label asp-for="BirthDate"></label>
-                    <input asp-for="BirthDate" class="form-control" type="date" />
+                    <label asp-for="BirthDate" class="birth-date-label">Дата рождения</label>
+                    <div class="birth-date-row">
+                        <div class="row g-2 mt-1">
+                            <div class="col-4">
+                                <select id="dateSelect" class="form-select date-field" required>
+                                    <option value="">День</option>
+                                    @for (int i = 1; i <= 31; i++)
+                                    {
+                                        <option value="@i" selected="@(Model.BirthDate.Day == i)">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="monthSelect" class="form-select date-field" required>
+                                    <option value="">Месяц</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        <option value="@i" selected="@(Model.BirthDate.Month == i)">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="yearSelect" class="form-select date-field" required>
+                                    <option value="">Год</option>
+                                    @for (int i = DateTime.Now.Year - 100; i <= DateTime.Now.Year - 14; i++)
+                                    {
+                                        <option value="@i" selected="@(Model.BirthDate.Year == i)">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <input asp-for="BirthDate" type="hidden" id="fullBirthDate" />
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
                 
@@ -49,7 +80,7 @@
                     <label asp-for="Image"></label>
                     <input asp-for="Image" class="form-control" />
                     <span asp-validation-for="Image" class="text-danger"></span>
-                    <small class="form-text text-muted">Введите URL изображения (например, https://via.placeholder.com/500)</small>
+                    <small class="form-text text-muted">Введите URL изображения</small>
                 </div>
                 
                 <div class="form-group mb-3">
@@ -76,4 +107,40 @@
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-} 
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем элементы выпадающих списков и скрытое поле с полной датой
+            const dateSelect = document.getElementById('dateSelect');
+            const monthSelect = document.getElementById('monthSelect');
+            const yearSelect = document.getElementById('yearSelect');
+            const fullBirthDate = document.getElementById('fullBirthDate');
+            
+            // Функция для обновления полной даты
+            function updateFullDate() {
+                if (dateSelect.value && monthSelect.value && yearSelect.value) {
+                    const day = parseInt(dateSelect.value);
+                    const month = parseInt(monthSelect.value);
+                    const year = parseInt(yearSelect.value);
+                    
+                    // Создаем объект даты и устанавливаем его в скрытое поле
+                    const date = new Date(year, month - 1, day);
+                    fullBirthDate.value = date.toISOString().split('T')[0]; // Формат YYYY-MM-DD
+                }
+            }
+            
+            // Обработчики событий для выпадающих списков
+            dateSelect.addEventListener('change', updateFullDate);
+            monthSelect.addEventListener('change', updateFullDate);
+            yearSelect.addEventListener('change', updateFullDate);
+            
+            // Обновляем дату при загрузке страницы
+            updateFullDate();
+            
+            // Обработчик отправки формы
+            document.querySelector('form').addEventListener('submit', function() {
+                updateFullDate();
+            });
+        });
+    </script>
+}
