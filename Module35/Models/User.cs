@@ -22,6 +22,10 @@ public class User : IdentityUser
     public virtual ICollection<FriendRelation> SentFriendRequests { get; set; } = new List<FriendRelation>();
     public virtual ICollection<FriendRelation> ReceivedFriendRequests { get; set; } = new List<FriendRelation>();
     
+    // Свойства для связи с сообщениями
+    public ICollection<Message> SentMessages { get; set; } = new List<Message>();
+    public ICollection<Message> ReceivedMessages { get; set; } = new List<Message>();
+
     public string GetFullName() 
     {
         // Проверки на null для всех компонентов имени

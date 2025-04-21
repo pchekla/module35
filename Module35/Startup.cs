@@ -4,6 +4,7 @@ using Module35.Data;
 using Module35.Models;
 using System.Reflection;
 using System;
+using Module35.Hubs;
 
 namespace Module35;
 
@@ -51,6 +52,9 @@ public class Startup
 
         // Добавляем контроллеры и представления
         services.AddControllersWithViews();
+        
+        // Добавляем SignalR
+        services.AddSignalR();
     }
 
     // Метод для настройки конвейера HTTP запросов
@@ -92,6 +96,9 @@ public class Startup
                 name: "login",
                 pattern: "Account/Login",
                 defaults: new { controller = "Home", action = "Index" });
+                
+            // Регистрируем маршрут для ChatHub
+            endpoints.MapHub<ChatHub>("/chatHub");
         });
     }
 } 

@@ -30,7 +30,7 @@ public class FriendsController : Controller
     [Route("MyFriends")]
     public async Task<IActionResult> Index(string query)
     {
-        var currentUser = await _userManager.GetUserAsync(User);
+        User? currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null)
         {
             return RedirectToAction("Login", "AccountManager");
@@ -192,7 +192,7 @@ public class FriendsController : Controller
             if (friendRelations.Any())
             {
                 model.Friends = friendRelations
-                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation, currentUser.Id))
+                    .Select(fr => new FriendViewModel(fr.Friend, fr.Relation, currentUser!.Id))
                     .ToList();
             }
         }

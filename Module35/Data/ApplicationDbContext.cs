@@ -7,6 +7,7 @@ namespace Module35.Data;
 public class ApplicationDbContext : IdentityDbContext<User>
 {
     public DbSet<FriendRelation> FriendRelations { get; set; }
+    public DbSet<Message> Messages { get; set; }
     
     // Добавляем DbSet для UserDto для работы с FromSqlRaw
     public DbSet<UserDto> UserDtos { get; set; }
@@ -16,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
         Database.EnsureCreated();
         CreateFriendRelationsTable();
+        CreateMessagesTable();
     }
     
     // Метод для создания таблицы FriendRelations
@@ -51,6 +53,38 @@ public class ApplicationDbContext : IdentityDbContext<User>
         }
     }
     
+    // Метод для создания таблицы Messages
+    private void CreateMessagesTable()
+    {
+        try
+        {
+            // Проверяем существование таблицы путем запроса
+            var testQuery = Messages.FirstOrDefault();
+        }
+        catch
+        {
+            // Если таблица не существует, создаем ее с помощью SQL
+            Database.ExecuteSqlRaw(@"
+                IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Messages]') AND type in (N'U'))
+                BEGIN
+                    CREATE TABLE [dbo].[Messages] (
+                        [Id] INT IDENTITY(1,1) NOT NULL,
+                        [Text] NVARCHAR(MAX) NOT NULL,
+                        [SentDate] DATETIME2 NOT NULL,
+                        [SenderId] NVARCHAR(450) NOT NULL,
+                        [RecipientId] NVARCHAR(450) NOT NULL,
+                        CONSTRAINT [PK_Messages] PRIMARY KEY CLUSTERED ([Id] ASC),
+                        CONSTRAINT [FK_Messages_AspNetUsers_SenderId] FOREIGN KEY ([SenderId]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+                        CONSTRAINT [FK_Messages_AspNetUsers_RecipientId] FOREIGN KEY ([RecipientId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+                    );
+                    
+                    CREATE INDEX [IX_Messages_SenderId] ON [dbo].[Messages] ([SenderId] ASC);
+                    CREATE INDEX [IX_Messages_RecipientId] ON [dbo].[Messages] ([RecipientId] ASC);
+                END
+            ");
+        }
+    }
+    
     // Дополнительная конфигурация модели
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -67,6 +101,19 @@ public class ApplicationDbContext : IdentityDbContext<User>
             .HasOne(fr => fr.Friend)
             .WithMany(u => u.ReceivedFriendRequests)
             .HasForeignKey(fr => fr.FriendId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Настраиваем отношения между пользователями и сообщениями
+        builder.Entity<Message>()
+            .HasOne(m => m.Sender)
+            .WithMany(u => u.SentMessages)
+            .HasForeignKey(m => m.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+            
+        builder.Entity<Message>()
+            .HasOne(m => m.Recipient)
+            .WithMany(u => u.ReceivedMessages)
+            .HasForeignKey(m => m.RecipientId)
             .OnDelete(DeleteBehavior.Restrict);
             
         // Настройка UserDto как сущности без ключа, поскольку она используется только для запросов

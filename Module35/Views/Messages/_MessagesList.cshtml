@@ -1,0 +1,24 @@
+@model Module35.ViewModels.ChatViewModel
+
+@if (Model.Messages.Any())
+{
+    foreach (var message in Model.Messages)
+    {
+        <div class="mb-3 @(message.IsFromCurrentUser ? "text-end" : "")">
+            <div class="d-inline-block message-bubble @(message.IsFromCurrentUser ? "bg-primary text-white" : "bg-light")">
+                <div class="message-content">@message.Text</div>
+                <div class="message-time @(message.IsFromCurrentUser ? "text-white-50" : "text-muted")">
+                    @message.SentDate.ToString("HH:mm, dd MMM")
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="text-center text-muted my-5">
+        <i class="bi bi-chat-dots display-4"></i>
+        <p class="mt-3">У вас пока нет сообщений с @Model.Friend.GetFullName()</p>
+        <p>Начните общение прямо сейчас!</p>
+    </div>
+} 

@@ -12,13 +12,13 @@ public class FriendRelation
     public string UserId { get; set; } = string.Empty;
     
     [ForeignKey("UserId")]
-    public User User { get; set; }
+    public User? User { get; set; }
     
     [Required]
     public string FriendId { get; set; } = string.Empty;
     
     [ForeignKey("FriendId")]
-    public User Friend { get; set; }
+    public User? Friend { get; set; }
     
     public DateTime RequestDate { get; set; } = DateTime.Now;
     

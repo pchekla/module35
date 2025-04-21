@@ -161,7 +161,7 @@ public class AccountManagerController : Controller
             MiddleName = user.MiddleName,
             Email = user.Email,
             BirthDate = user.BirthDate,
-            Image = user.Image,
+            Image = user.Image ?? string.Empty,
             Status = user.Status,
             About = user.About
         };
@@ -209,7 +209,7 @@ public class AccountManagerController : Controller
             user.LastName = model.LastName;
             user.MiddleName = model.MiddleName;
             user.BirthDate = model.BirthDate;
-            user.Image = model.Image ?? ""; // Защита от null
+            user.Image = model.Image ?? string.Empty;
             user.Status = string.IsNullOrWhiteSpace(model.Status) ? "" : model.Status;
             user.About = string.IsNullOrWhiteSpace(model.About) ? "" : model.About;
             
