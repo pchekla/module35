@@ -2,28 +2,57 @@
     ViewData["Title"] = "Главная страница";
 }
 
-<div class="container fade-in">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card animate-on-scroll">
-                <div class="card-body">
-                    <h2 class="card-title">Добро пожаловать в <span class="main-logo-text">Cosmo<span class="main-logo-accent">Bazar</span></span>!</h2>
-                    <p class="card-text">Вы успешно вошли в систему.</p>
-                    
-                    <div class="row mt-4">
-                        <div class="col-md-6 animate-on-scroll">
-                            <h4>Это главная страница для авторизованных пользователей.</h4>
-                            <p>Здесь будет размещаться основной функционал социальной сети.</p>
-                        </div>
-                        <div class="col-md-6 animate-on-scroll">
-                            <div class="image-container">
-                                <img src="~/img/logo.png" alt="Логотип CosmoBazar" class="responsive-image image-hover" />
-                                <p class="text-center text-muted mt-2">Наш адаптивный логотип</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-7">
+            <h1 class="display-4">Добро пожаловать в <span class="logo-text">Cosmo<span class="logo-accent">Bazar</span></span>!</h1>
+            <p class="lead">Вы успешно вошли в систему.</p>
+            
+            <h4 class="mt-4 mb-3">Основные возможности:</h4>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item bg-transparent"><i class="bi bi-person-circle me-2 text-primary"></i>Управление профилем (редактирование данных, аватар).</li>
+                <li class="list-group-item bg-transparent"><i class="bi bi-people-fill me-2 text-success"></i>Система друзей (поиск, запросы, список друзей).</li>
+                <li class="list-group-item bg-transparent"><i class="bi bi-chat-dots-fill me-2 text-info"></i>Чат в реальном времени с друзьями (SignalR).</li>
+                <li class="list-group-item bg-transparent"><i class="bi bi-bell-fill me-2 text-warning"></i>Визуальные уведомления (Toastr).</li>
+                <li class="list-group-item bg-transparent"><i class="bi bi-palette-fill me-2 text-secondary"></i>Переключение светлой/темной темы.</li>
+            </ul>
+
+            <p>Исследуйте возможности нашей социальной сети!</p>
+            
+        </div>
+        <div class="col-md-5 text-center">
+            <img src="/img/logo.png" alt="Логотип CosmoBazar" class="img-fluid main-page-logo mt-4 mt-md-0">
+            <p class="text-muted mt-2 small">Наш адаптивный логотип</p>
         </div>
     </div>
-</div> 
+</div>
+
+<style>
+    /* Дополнительные стили для улучшения вида */
+    .logo-text {
+        font-weight: bold;
+    }
+    .logo-accent {
+        color: var(--bs-primary); /* Используем цвет темы */
+    }
+    .main-page-logo {
+        max-width: 300px;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+    .list-group-item i {
+        font-size: 1.1rem;
+    }
+    [data-theme="dark"] .list-group-item {
+        background-color: transparent !important;
+        border-color: rgba(255, 255, 255, 0.125) !important;
+        color: #f8f9fa; /* Явно задаем светлый цвет для элементов списка */
+    }
+    [data-theme="dark"] .lead, 
+    [data-theme="dark"] h4, 
+    [data-theme="dark"] p {
+        color: #f8f9fa; /* Светлый цвет для основного текста */
+    }
+    [data-theme="dark"] .logo-accent {
+         color: var(--bs-primary); /* Акцентный цвет лого в темной теме */
+    }
+</style> 
