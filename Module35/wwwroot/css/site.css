@@ -887,3 +887,26 @@ footer {
     background-color: transparent !important; 
     border: none; /* Уберем рамки у списка */
 }
+
+/* ----- Стили для контента главной страницы (до логина) ----- */
+.home-page-content .welcome-info {
+   /* background-color: transparent !important; */ /* Убираем прозрачность */
+   background-color: var(--card-bg); /* Используем фон карточки */
+   padding: 2rem; /* Увеличиваем отступы */
+   border-radius: 0.5rem; 
+   box-shadow: 0 4px 15px var(--shadow-color); 
+   margin-bottom: 1.5rem; 
+}
+
+.home-page-content .card {
+   /* background-color: transparent !important; */ /* Убираем прозрачность */
+   background-color: var(--card-bg); /* Возвращаем фон карточки */
+   box-shadow: 0 4px 15px var(--shadow-color); /* Возвращаем тень */
+   border: 1px solid var(--border-color); /* Возвращаем рамку */
+   border-radius: 0.5rem; /* Можно добавить/изменить скругление */
+}
+
+.home-page-content .card-body {
+   /* background-color: transparent !important; */ /* Убираем прозрачность, если добавляли */
+   /* Стили для card-body остаются по умолчанию */
+}
